@@ -189,3 +189,15 @@ Relax mode notes:
   - service worker pre-cache includes only runtime-active sprite packs
 - **Why:**
   - aligns with latest art selection while keeping pack switching simple for players.
+
+## 2026-02-11 — Persistent Leaderboard via Vercel + Neon
+- **Decision:** Move leaderboard persistence to a first-party API (`/api/leaderboard`) running on Vercel Functions with Neon Postgres.
+- **Behavior:**
+  - browser reads/writes leaderboard through same-origin requests only
+  - API stores entries in Neon and returns top 10 by `score DESC, created_at ASC`
+  - frontend keeps local leaderboard as fallback cache when API/DB is unavailable
+  - service worker bypasses caching for `/api/*` to avoid stale leaderboard responses
+- **Why:**
+  - enables cross-device persistence while preserving offline play
+  - keeps networking first-party and avoids third-party browser calls
+  - protects gameplay UX by degrading gracefully to local storage when offline

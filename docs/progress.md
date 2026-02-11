@@ -1112,3 +1112,23 @@
   - Confirm popping sprites render fully above board squares.
   - Confirm floating objects stay outside the board area and do not block holes.
   - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Neon/Vercel Persistente Bestenliste)
+- What changed:
+  - Added Vercel API route `api/leaderboard.js` with Neon Postgres integration (`@neondatabase/serverless`).
+  - API supports:
+    - `GET /api/leaderboard?limit=10` for top entries
+    - `POST /api/leaderboard` for adding a score entry
+  - Added schema bootstrap in API (table + index auto-created on first call).
+  - Wired frontend leaderboard flow to:
+    - fetch remote entries on app startup/leaderboard view
+    - save score remotely after game-over
+    - fallback to local leaderboard storage if API/DB is unavailable
+  - Updated service worker to skip caching `/api/*` responses.
+  - Updated repo docs (`README`, `looking-glass`, `game-spec`, `decision-log`, `learning-by-doing`).
+- Why:
+  - You requested persistent DB-backed leaderboard support via Neon on Vercel.
+- How to test:
+  - Set `DATABASE_URL` in Vercel and deploy.
+  - Open app in two devices/browsers, save a score on one, verify it appears on the other.
+  - Stop API access (or run static local dev) and verify leaderboard still works locally.

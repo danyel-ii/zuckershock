@@ -3,10 +3,11 @@
 This repo builds a **kid-safe, browser-only, offline-capable** Whack-a-Mole style game.
 
 ## Non-Negotiables
-- **No runtime network calls** (no analytics, ads, accounts, chat, tracking, or external assets).
+- **No third-party browser runtime calls** (no analytics, ads, accounts, chat, tracking, or external assets).
+- Same-origin API calls are allowed for first-party features (e.g. persistent leaderboard).
 - **Kid-safe** language and feedback ("boop/bonk", sparkles; nothing scary).
 - **Accessible by default**: keyboard playable, visible focus, large tap targets, reduced motion toggle.
-- **Privacy preserving**: store only `settings` and `bestScore` (local-only).
+- **Privacy preserving**: local storage keeps `settings` and `bestScore`; leaderboard may persist to first-party DB.
 
 ## Stack / Tooling
 - Plain **HTML/CSS/JS** using **ES modules**.
@@ -43,4 +44,4 @@ This repo builds a **kid-safe, browser-only, offline-capable** Whack-a-Mole styl
 ## Local Storage Keys
 - `wam_settings_v1`
 - `wam_bestScore_v1`
-
+- `wam_leaderboard_v1` (local cache/fallback)

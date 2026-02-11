@@ -1,5 +1,5 @@
 // Minimal offline cache: pre-cache app shell; runtime-cache same-origin GET requests.
-const CACHE_NAME = "wam-cache-v48";
+const CACHE_NAME = "wam-cache-v49";
 const SHELL = [
   "./",
   "./index.html",
@@ -69,6 +69,7 @@ self.addEventListener("fetch", (event) => {
 
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  if (url.pathname.startsWith("/api/")) return;
 
   // SPA-ish navigation fallback to cached index.html.
   if (req.mode === "navigate") {

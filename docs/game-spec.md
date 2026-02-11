@@ -36,7 +36,12 @@ Fairness rules:
 1. Title: Start + Settings + Mode select
 2. In-game: HUD (Score + Time), Pause
 3. Pause/Settings overlay: Resume, Restart, Sound, Music, Reduced Motion
-4. Game Over: Score + Best score + Play again
+4. Game Over: Score + Best score + name entry + leaderboard save
+
+## Leaderboard Persistence
+- Primary: first-party API (`/api/leaderboard`) backed by Neon Postgres on Vercel.
+- Fallback: local storage cache (`wam_leaderboard_v1`) when API or network is unavailable.
+- Display: top 10 entries sorted by highest score, then earliest timestamp.
 
 ## Inputs
 - Pointer/touch: tap/click hole to bonk.

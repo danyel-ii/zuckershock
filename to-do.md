@@ -152,7 +152,7 @@
   - [x] how to tweak difficulty
   - [x] accessibility notes
 - [x] `CREDITS.md` for any third-party assets (if any), with licenses.
-- [x] Confirm no network calls at runtime (except optional local dev server).
+- [x] Confirm no third-party browser runtime calls (same-origin API allowed for first-party leaderboard).
 
 **Acceptance**
 - Static deploy works; game is playable from a simple file host.
@@ -171,4 +171,4 @@
 - [ ] DoD satisfied (see `agents.md`)
 - [ ] Cross-browser smoke test: Chrome, Safari iOS, Firefox, Edge
 - [ ] Mobile smoke test: iPhone + Android
-- [ ] No external analytics; no PII; local storage only
+- [ ] No external analytics; no PII beyond optional player nickname in leaderboard

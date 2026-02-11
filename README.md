@@ -22,6 +22,20 @@ npm run preview
 npm test
 ```
 
+## Persistent Leaderboard (Vercel + Neon)
+This repo includes a Vercel Function at `api/leaderboard.js` backed by Neon Postgres.
+
+Setup:
+1. Create a Neon database and copy its connection string.
+2. In Vercel Project Settings -> Environment Variables, set:
+   - `DATABASE_URL=<your_neon_connection_string>`
+3. Deploy normally to Vercel.
+
+Behavior:
+- In production on Vercel, leaderboard reads/writes go to Neon via `/api/leaderboard`.
+- If the API/database is unavailable, the app falls back to local leaderboard storage automatically.
+- Local static dev (`npm run dev`) has no API function, so it uses local leaderboard only.
+
 ## Offline Test
 1. Run `npm run dev`
 2. Load the page once (online)
@@ -60,7 +74,7 @@ Classic mode (4 Stufen, je 45s = 180s) ramps:
 - forbidden bonk penalty: -150 for matching sprites while active
 - forbidden strike-out: round ends when the selected attempt limit is reached (`3` to `7`)
 - on each level transition: +1 attempt is granted back (capped at selected max attempts)
-- local leaderboard: save your score with a name on game-over (top 10, local-only)
+- leaderboard: save your score with a name on game-over (top 10, Neon on Vercel with local fallback)
 - level turn rules:
   - Level 1: 1 sprite per turn, random forbidden matches
   - Level 2: 2 sprites per turn, random forbidden matches
@@ -83,4 +97,5 @@ Local-only storage:
 - `wam_bestScore_v1`
 - `wam_leaderboard_v1`
 
-No accounts, tracking, analytics, ads, chat, or runtime external requests.
+No accounts, tracking, analytics, ads, or chat.
+Browser runtime uses same-origin requests only (`/api/leaderboard`) when persistent leaderboard is enabled.

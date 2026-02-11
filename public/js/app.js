@@ -1,9 +1,12 @@
 import {
-  addLeaderboardEntry,
+  addLeaderboardEntry as addLocalLeaderboardEntry,
+  addLeaderboardEntryRemote,
   loadBestScore,
-  loadLeaderboard,
+  loadLeaderboard as loadLocalLeaderboard,
+  loadLeaderboardRemote,
   loadSettings,
   saveBestScore,
+  saveLeaderboard,
   saveSettings,
 } from "./game/storage.js";
 import { AudioManager } from "./game/audio.js";
@@ -126,13 +129,14 @@ function setOverlayOpen(open) {
 
 let settings = loadSettings();
 let bestScore = loadBestScore();
-let leaderboard = loadLeaderboard();
+let leaderboard = loadLocalLeaderboard();
 let mode = "classic";
 let lastFocus = null;
 let overlayMode = "settings"; // settings | pause
 let lastEnteredName = "";
 let roundSaved = false;
 let pendingRoundResult = null;
+let savingLeaderboard = false;
 
 settings.spritePack = setSpritePackId(settings.spritePack);
 settings.maxAttempts = cleanMaxAttempts(settings.maxAttempts);
@@ -223,17 +227,33 @@ function renderLeaderboards() {
   renderLeaderboardList(gameoverLeaderboard, leaderboard, 10);
 }
 
+async function refreshLeaderboardFromRemote({ silent = true, limit = 10 } = {}) {
+  try {
+    const remoteEntries = await loadLeaderboardRemote(limit);
+    leaderboard = remoteEntries;
+    saveLeaderboard(remoteEntries);
+    renderLeaderboards();
+    return true;
+  } catch (error) {
+    if (!silent) {
+      console.warn("Remote leaderboard unavailable. Falling back to local leaderboard.", error);
+    }
+    return false;
+  }
+}
+
 function setSaveScoreFeedback(text, tone = "info") {
   if (!(saveScoreFeedback instanceof HTMLElement)) return;
   saveScoreFeedback.textContent = text;
   saveScoreFeedback.setAttribute("data-tone", tone);
 }
 
-function saveScoreToLeaderboard() {
+async function saveScoreToLeaderboard() {
   if (!pendingRoundResult) {
     setSaveScoreFeedback("Kein Rundenergebnis zum Speichern vorhanden.", "bad");
     return;
   }
+  if (savingLeaderboard) return;
   if (roundSaved) {
     setSaveScoreFeedback("Dieses Ergebnis wurde schon gespeichert.", "good");
     return;
@@ -249,16 +269,40 @@ function saveScoreToLeaderboard() {
   }
 
   lastEnteredName = entered.slice(0, 18);
-  leaderboard = addLeaderboardEntry({
+  const entry = {
     name: lastEnteredName,
     score: pendingRoundResult.score,
     mode: pendingRoundResult.mode,
     reason: pendingRoundResult.reason,
-  });
-  roundSaved = true;
+  };
+
+  savingLeaderboard = true;
   if (saveScoreBtn instanceof HTMLButtonElement) saveScoreBtn.disabled = true;
-  setSaveScoreFeedback("Gespeichert! Du bist in der Bestenliste.", "good");
-  renderLeaderboards();
+
+  try {
+    let persistedRemote = false;
+    try {
+      leaderboard = await addLeaderboardEntryRemote(entry);
+      saveLeaderboard(leaderboard);
+      persistedRemote = true;
+    } catch {
+      leaderboard = addLocalLeaderboardEntry(entry);
+    }
+
+    roundSaved = true;
+    setSaveScoreFeedback(
+      persistedRemote
+        ? "Gespeichert! Du bist in der Bestenliste."
+        : "Lokal gespeichert. Ohne Verbindung bleibt die Bestenliste auf diesem Gerät.",
+      persistedRemote ? "good" : "info"
+    );
+    renderLeaderboards();
+  } finally {
+    savingLeaderboard = false;
+    if (saveScoreBtn instanceof HTMLButtonElement && !roundSaved) {
+      saveScoreBtn.disabled = false;
+    }
+  }
 }
 
 function syncUI() {
@@ -355,12 +399,14 @@ settingsBtn.addEventListener("click", () => {
   setOverlayOpen(true);
 });
 
-leaderboardBtn?.addEventListener("click", () => {
+leaderboardBtn?.addEventListener("click", async () => {
   audio.play("button");
+  await refreshLeaderboardFromRemote({ silent: true, limit: 10 });
   renderLeaderboards();
   showScreen("gameover");
   pendingRoundResult = null;
   roundSaved = false;
+  savingLeaderboard = false;
   if (saveScoreBtn instanceof HTMLButtonElement) saveScoreBtn.disabled = false;
   setSaveScoreFeedback("Namen eingeben und Ergebnis speichern.", "info");
   gameoverHeading.textContent = "Bestenliste";
@@ -483,10 +529,10 @@ backToTitleBtn.addEventListener("click", () => {
   endRoundToTitle();
 });
 
-leaderboardForm?.addEventListener("submit", (e) => {
+leaderboardForm?.addEventListener("submit", async (e) => {
   e.preventDefault();
   audio.play("button");
-  saveScoreToLeaderboard();
+  await saveScoreToLeaderboard();
 });
 
 // Defaults: respect OS reduced motion on first run; music off by default.
@@ -506,6 +552,7 @@ if ("serviceWorker" in navigator) {
 syncUI();
 randomizeLandingSpriteDecor();
 showScreen("title");
+void refreshLeaderboardFromRemote({ silent: true, limit: 10 });
 
 function clearLevelBreakTimer() {
   if (!levelBreakTimerId) return;
@@ -686,6 +733,7 @@ function startRound() {
   seenLevel = 1;
   pendingRoundResult = null;
   roundSaved = false;
+  savingLeaderboard = false;
   hideLevelBreak();
   if (saveScoreBtn instanceof HTMLButtonElement) saveScoreBtn.disabled = false;
   setSaveScoreFeedback("", "info");
@@ -858,6 +906,7 @@ function onGameOver() {
   finalScoreValue.textContent = String(score);
   pendingRoundResult = { score, mode: view.mode, reason };
   roundSaved = false;
+  savingLeaderboard = false;
   if (saveScoreBtn instanceof HTMLButtonElement) saveScoreBtn.disabled = false;
   if (leaderboardName instanceof HTMLInputElement) {
     leaderboardName.value = lastEnteredName;

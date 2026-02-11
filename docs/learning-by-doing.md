@@ -64,3 +64,10 @@ pre-caches those module URLs too.
   direct page scraping from the referenced itch page was blocked.
 - Kept implementation original by matching high-level shape language only (rounded forms,
   simple faces, blush accents) rather than copying any exact sprite details.
+
+## Remote Features Need Local Fallbacks
+- A persistent leaderboard can coexist with offline gameplay if write/read paths degrade cleanly.
+- Pattern used here:
+  - try same-origin API first (`/api/leaderboard`)
+  - on failure, fall back to local cache (`wam_leaderboard_v1`)
+  - keep API responses out of SW cache to avoid stale rankings
