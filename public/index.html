@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#ff8fc7" />
+    <title>Zucker-Schock</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#app">Zum Spiel springen</a>
+    <div id="toothFairyLayer" class="fairy-overlay" aria-hidden="true"></div>
+
+    <main id="app" class="app" data-reduced-motion="false">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand__logo" aria-hidden="true"></div>
+          <div class="brand__text">
+            <div class="brand__title">Zucker-Schock</div>
+            <div class="brand__subtitle">Es war einmal die Zahnfee...</div>
+          </div>
+        </div>
+      </header>
+
+      <section class="screen screen--active" id="screen-title" aria-labelledby="title-heading">
+        <h1 id="title-heading" class="title">Zucker-Schock</h1>
+        <p class="tagline">Tippe die süßen Leckereien, meide die verbotene Nascherei und sammle Zuckerstreussel.</p>
+
+        <div class="card">
+          <div class="row">
+            <div class="label">Modus</div>
+            <div class="segmented" role="group" aria-label="Spielmodus">
+              <button class="segmented__btn" type="button" data-mode="classic" aria-pressed="true">
+                Klassik (4x45s)
+              </button>
+              <button class="segmented__btn" type="button" data-mode="relax" aria-pressed="false">
+                Entspannt
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">Bestwert</div>
+            <div class="value" id="bestScoreValue">0</div>
+          </div>
+
+          <div class="leaderboard-panel" aria-labelledby="title-leaderboard-heading">
+            <div class="label" id="title-leaderboard-heading">Top-Spieler:innen</div>
+            <ol class="leaderboard leaderboard--compact" id="titleLeaderboard"></ol>
+          </div>
+
+          <div class="cta">
+            <button class="btn btn--primary" id="startBtn" type="button">Los geht's</button>
+            <button class="btn" id="settingsBtn" type="button">Einstellungen</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-game" aria-label="Spielansicht" hidden>
+        <div class="hud" aria-label="Spielinfos">
+          <div class="hud__item">
+            <div class="hud__label">Punkte</div>
+            <div class="hud__value" id="scoreValue">0</div>
+          </div>
+          <div class="hud__item">
+            <div class="hud__label">Zeit</div>
+            <div class="hud__value" id="timeValue">180</div>
+          </div>
+          <div class="hud__item">
+            <div class="hud__label">Stufe</div>
+            <div class="hud__value" id="levelValue">1</div>
+          </div>
+          <div class="hud__item">
+            <div class="hud__label">Verboten-Treffer</div>
+            <div class="hud__value" id="forbiddenHitsValue">0 / 3</div>
+          </div>
+          <div class="hud__spacer"></div>
+          <button class="btn btn--small" id="pauseBtn" type="button">Pause</button>
+        </div>
+
+        <div class="forbidden-lane" aria-live="polite" aria-atomic="true">
+          <div class="forbidden-lane__label" id="forbiddenLabel">Verbotene Leckerei: Unten siehst du den Läufer.</div>
+          <div class="forbidden-lane__track" id="forbiddenTrack">
+            <div class="forbidden-runner" id="forbiddenRunner" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <div class="board-wrap">
+          <div id="board" class="board" role="group" aria-label="Spielfelder"></div>
+          <div class="announcer" aria-live="polite" aria-atomic="true" id="announcer"></div>
+        </div>
+
+        <div class="level-break" id="levelBreak" aria-live="assertive" aria-atomic="true" hidden>
+          <div class="level-break__card">
+            <div class="level-break__title" id="levelBreakTitle">Stufe 1</div>
+            <div class="level-break__count" id="levelBreakCount">3</div>
+            <div class="level-break__info" id="levelBreakInfo"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-gameover" aria-labelledby="gameover-heading" hidden>
+        <h2 id="gameover-heading" class="title title--small">Runde vorbei!</h2>
+        <p class="tagline" id="gameoverReason">Die Zeit ist um. Trag deinen Namen in die Bestenliste ein.</p>
+        <div class="card">
+          <div class="row">
+            <div class="label">Deine Punkte</div>
+            <div class="value" id="finalScoreValue">0</div>
+          </div>
+          <div class="row">
+            <div class="label">Bestwert</div>
+            <div class="value" id="bestScoreValue2">0</div>
+          </div>
+          <div class="leaderboard-panel" aria-labelledby="save-score-heading">
+            <div class="label" id="save-score-heading">Punkte speichern</div>
+            <form id="leaderboardForm" class="leaderboard-form">
+              <label class="sr-only" for="leaderboardName">Dein Name</label>
+              <input
+                id="leaderboardName"
+                class="name-input"
+                type="text"
+                inputmode="text"
+                autocomplete="name"
+                maxlength="18"
+                placeholder="Dein Name"
+              />
+              <button class="btn btn--small" id="saveScoreBtn" type="submit">Speichern</button>
+            </form>
+            <p class="save-feedback" id="saveScoreFeedback" aria-live="polite"></p>
+          </div>
+
+          <div class="leaderboard-panel" aria-labelledby="gameover-leaderboard-heading">
+            <div class="label" id="gameover-leaderboard-heading">Bestenliste</div>
+            <ol class="leaderboard" id="gameoverLeaderboard"></ol>
+          </div>
+
+          <div class="cta">
+            <button class="btn btn--primary" id="playAgainBtn" type="button">Nochmal spielen</button>
+            <button class="btn" id="backToTitleBtn" type="button">Zur Startseite</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="overlay" id="overlay" hidden>
+        <div class="overlay__backdrop" data-close-overlay="true"></div>
+        <div
+          class="overlay__panel"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="overlayTitle"
+          tabindex="-1"
+        >
+          <div class="overlay__header">
+            <div class="overlay__title" id="overlayTitle">Einstellungen</div>
+            <button class="btn btn--small" type="button" data-close-overlay="true">Schließen</button>
+          </div>
+
+          <div class="toggle-list">
+            <label class="toggle">
+              <input id="soundToggle" type="checkbox" />
+              <span class="toggle__text">Ton</span>
+            </label>
+            <label class="toggle">
+              <input id="musicToggle" type="checkbox" />
+              <span class="toggle__text">Musik</span>
+            </label>
+            <label class="toggle">
+              <input id="reducedMotionToggle" type="checkbox" />
+              <span class="toggle__text">Weniger Bewegung</span>
+            </label>
+            <div class="toggle toggle--speed" role="group" aria-label="Geschwindigkeit">
+              <span class="toggle__text">Geschwindigkeit</span>
+              <div class="segmented segmented--speed">
+                <button class="segmented__btn" type="button" data-speed="langsam" aria-pressed="false">
+                  Langsam
+                </button>
+                <button class="segmented__btn" type="button" data-speed="normal" aria-pressed="true">
+                  Normal
+                </button>
+                <button class="segmented__btn" type="button" data-speed="schnell" aria-pressed="false">
+                  Schnell
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="overlay__footer">
+            <button class="btn" id="restartBtn" type="button" hidden>Runde neu starten</button>
+            <button class="btn btn--primary" id="resumeBtn" type="button" hidden>Weiter</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="./vendor/p5/p5.min.js"></script>
+    <script type="module" src="./js/app.js"></script>
+  </body>
+</html>

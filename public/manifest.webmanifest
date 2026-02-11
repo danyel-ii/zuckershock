@@ -1,0 +1,9 @@
+{
+  "name": "Zucker-Schock",
+  "short_name": "Zucker-Schock",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff7ec",
+  "theme_color": "#ff8fc7",
+  "description": "Ein niedliches, kindersicheres Reaktionsspiel, das komplett offline funktioniert."
+}

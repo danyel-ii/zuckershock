@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Kawaii carnival backdrop">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bde8ff"/>
+      <stop offset="50%" stop-color="#ffdff0"/>
+      <stop offset="100%" stop-color="#fff4cf"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#baf7c9"/>
+      <stop offset="100%" stop-color="#8fe9b4"/>
+    </linearGradient>
+    <pattern id="confetti" width="120" height="120" patternUnits="userSpaceOnUse">
+      <circle cx="18" cy="22" r="5" fill="#ff87c7" opacity="0.7"/>
+      <circle cx="84" cy="18" r="4" fill="#ffe083" opacity="0.75"/>
+      <circle cx="50" cy="52" r="5" fill="#8bd6ff" opacity="0.65"/>
+      <rect x="96" y="66" width="10" height="4" rx="2" fill="#fd9a59" opacity="0.7"/>
+      <rect x="18" y="84" width="12" height="4" rx="2" fill="#8ef0b8" opacity="0.75"/>
+      <path d="M56 90 L62 102 L74 104 L64 112 L67 124 L56 118 L44 124 L47 112 L37 104 L49 102 Z"
+        fill="#ffd95f" opacity="0.72"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <rect width="1600" height="900" fill="url(#confetti)" opacity="0.6"/>
+
+  <g opacity="0.8">
+    <path d="M0 250 C130 220 280 220 420 248 C560 276 720 278 860 246 C1000 214 1160 218 1300 250 C1420 276 1520 272 1600 252 L1600 340 L0 340 Z"
+      fill="#e7f6ff"/>
+    <path d="M0 300 C140 270 280 270 420 300 C560 330 700 330 860 298 C1020 266 1180 274 1340 308 C1460 334 1540 328 1600 316 L1600 390 L0 390 Z"
+      fill="#d3eeff"/>
+  </g>
+
+  <g fill="#ffffff" opacity="0.92">
+    <ellipse cx="250" cy="170" rx="90" ry="36"/>
+    <ellipse cx="315" cy="170" rx="58" ry="28"/>
+    <ellipse cx="930" cy="120" rx="84" ry="34"/>
+    <ellipse cx="995" cy="120" rx="56" ry="24"/>
+    <ellipse cx="1310" cy="178" rx="90" ry="32"/>
+    <ellipse cx="1372" cy="178" rx="54" ry="24"/>
+  </g>
+
+  <g>
+    <path d="M0 96 C220 132 410 126 620 90 C840 52 1050 56 1250 98 C1400 130 1512 126 1600 100"
+      fill="none" stroke="#7d4a66" stroke-width="5" opacity="0.45"/>
+    <g transform="translate(0 0)">
+      <circle cx="80" cy="112" r="10" fill="#ff7abf"/>
+      <circle cx="190" cy="124" r="10" fill="#ffd86a"/>
+      <circle cx="310" cy="126" r="10" fill="#76d9ff"/>
+      <circle cx="430" cy="114" r="10" fill="#96f0b8"/>
+      <circle cx="548" cy="102" r="10" fill="#ff9e6d"/>
+      <circle cx="670" cy="92" r="10" fill="#ff7abf"/>
+      <circle cx="788" cy="86" r="10" fill="#ffd86a"/>
+      <circle cx="910" cy="86" r="10" fill="#76d9ff"/>
+      <circle cx="1030" cy="92" r="10" fill="#96f0b8"/>
+      <circle cx="1148" cy="104" r="10" fill="#ff9e6d"/>
+      <circle cx="1268" cy="114" r="10" fill="#ff7abf"/>
+      <circle cx="1388" cy="124" r="10" fill="#ffd86a"/>
+      <circle cx="1512" cy="118" r="10" fill="#76d9ff"/>
+    </g>
+  </g>
+
+  <g opacity="0.18" stroke="#ffffff" stroke-width="6" fill="none">
+    <circle cx="1220" cy="390" r="120"/>
+    <circle cx="1220" cy="390" r="80"/>
+    <circle cx="1220" cy="390" r="40"/>
+    <path d="M1220 270 V510 M1100 390 H1340 M1140 310 L1300 470 M1300 310 L1140 470"/>
+  </g>
+
+  <g>
+    <rect x="0" y="640" width="1600" height="260" fill="url(#ground)"/>
+    <path d="M0 664 C180 628 380 624 560 664 C730 702 930 706 1110 666 C1290 626 1460 628 1600 656 L1600 900 L0 900 Z"
+      fill="#9eeebf"/>
+  </g>
+
+  <g transform="translate(120 430)">
+    <rect x="0" y="180" width="310" height="170" rx="20" fill="#fff2f9" stroke="#f2a2cc" stroke-width="6"/>
+    <path d="M0 180 L48 58 L96 180 L144 58 L192 180 L240 58 L288 180 L310 180 L310 220 L0 220 Z"
+      fill="#ffd0e9" stroke="#f2a2cc" stroke-width="6"/>
+    <rect x="112" y="242" width="92" height="78" rx="14" fill="#ff87c7"/>
+  </g>
+
+  <g transform="translate(1130 460)">
+    <rect x="0" y="150" width="280" height="160" rx="20" fill="#eef6ff" stroke="#8ec8ff" stroke-width="6"/>
+    <path d="M0 150 L42 56 L84 150 L126 56 L168 150 L210 56 L252 150 L280 150 L280 186 L0 186 Z"
+      fill="#bfe7ff" stroke="#8ec8ff" stroke-width="6"/>
+    <rect x="96" y="206" width="84" height="72" rx="14" fill="#7ad6ff"/>
+  </g>
+
+  <g transform="translate(640 500)">
+    <rect x="0" y="180" width="320" height="170" rx="22" fill="#fff9e9" stroke="#f8c971" stroke-width="6"/>
+    <path d="M0 180 L45 72 L90 180 L135 72 L180 180 L225 72 L270 180 L315 72 L320 180 L320 216 L0 216 Z"
+      fill="#ffe79c" stroke="#f8c971" stroke-width="6"/>
+    <rect x="110" y="246" width="102" height="70" rx="14" fill="#ffd772"/>
+  </g>
+</svg>
+

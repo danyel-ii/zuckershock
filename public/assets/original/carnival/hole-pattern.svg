@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-label="Carnival ticket pattern">
+  <defs>
+    <pattern id="tickets" width="80" height="80" patternUnits="userSpaceOnUse">
+      <rect width="80" height="80" fill="#fff3df"/>
+      <rect x="8" y="10" width="64" height="30" rx="7" fill="#ffc7dd"/>
+      <rect x="8" y="44" width="64" height="26" rx="7" fill="#ffdf97"/>
+      <circle cx="20" cy="25" r="3" fill="#fff"/>
+      <circle cx="60" cy="25" r="3" fill="#fff"/>
+      <circle cx="20" cy="57" r="3" fill="#fff"/>
+      <circle cx="60" cy="57" r="3" fill="#fff"/>
+      <path d="M34 22 L38 30 L46 31 L40 36 L42 44 L34 40 L26 44 L28 36 L22 31 L30 30 Z"
+        fill="#ffd95f" opacity="0.7"/>
+    </pattern>
+  </defs>
+  <rect width="320" height="320" fill="url(#tickets)"/>
+</svg>
+

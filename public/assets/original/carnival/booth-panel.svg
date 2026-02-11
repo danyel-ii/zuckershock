@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-label="Carnival booth panel">
+  <defs>
+    <pattern id="stripe" width="90" height="90" patternUnits="userSpaceOnUse" patternTransform="rotate(12)">
+      <rect width="90" height="90" fill="#fff7ec"/>
+      <rect x="0" y="0" width="44" height="90" fill="#ffd4e8"/>
+    </pattern>
+    <pattern id="dots" width="64" height="64" patternUnits="userSpaceOnUse">
+      <circle cx="16" cy="16" r="6" fill="#ffffff" opacity="0.34"/>
+      <circle cx="48" cy="48" r="6" fill="#ffffff" opacity="0.34"/>
+      <circle cx="16" cy="48" r="3" fill="#ffcf58" opacity="0.4"/>
+      <circle cx="48" cy="16" r="3" fill="#90dcff" opacity="0.4"/>
+    </pattern>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ff8fc7"/>
+      <stop offset="100%" stop-color="#ff6ca8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#stripe)"/>
+  <rect width="1200" height="800" fill="url(#dots)"/>
+
+  <g transform="translate(0 0)">
+    <rect x="0" y="0" width="1200" height="122" fill="url(#panel)"/>
+    <g>
+      <circle cx="46" cy="60" r="18" fill="#fff3a3"/>
+      <circle cx="108" cy="60" r="18" fill="#7fdcff"/>
+      <circle cx="170" cy="60" r="18" fill="#ff9ccc"/>
+      <circle cx="232" cy="60" r="18" fill="#b8ff9e"/>
+      <circle cx="294" cy="60" r="18" fill="#ffd084"/>
+      <circle cx="356" cy="60" r="18" fill="#fff3a3"/>
+      <circle cx="418" cy="60" r="18" fill="#7fdcff"/>
+      <circle cx="480" cy="60" r="18" fill="#ff9ccc"/>
+      <circle cx="542" cy="60" r="18" fill="#b8ff9e"/>
+      <circle cx="604" cy="60" r="18" fill="#ffd084"/>
+      <circle cx="666" cy="60" r="18" fill="#fff3a3"/>
+      <circle cx="728" cy="60" r="18" fill="#7fdcff"/>
+      <circle cx="790" cy="60" r="18" fill="#ff9ccc"/>
+      <circle cx="852" cy="60" r="18" fill="#b8ff9e"/>
+      <circle cx="914" cy="60" r="18" fill="#ffd084"/>
+      <circle cx="976" cy="60" r="18" fill="#fff3a3"/>
+      <circle cx="1038" cy="60" r="18" fill="#7fdcff"/>
+      <circle cx="1100" cy="60" r="18" fill="#ff9ccc"/>
+      <circle cx="1162" cy="60" r="18" fill="#b8ff9e"/>
+    </g>
+  </g>
+
+  <g transform="translate(0 120)">
+    <path d="M0 0 L60 0 C55 36 35 56 0 64 Z" fill="#ff7abf"/>
+    <path d="M60 0 L120 0 C115 36 95 56 60 64 Z" fill="#ffd86a"/>
+    <path d="M120 0 L180 0 C175 36 155 56 120 64 Z" fill="#76d9ff"/>
+    <path d="M180 0 L240 0 C235 36 215 56 180 64 Z" fill="#96f0b8"/>
+    <path d="M240 0 L300 0 C295 36 275 56 240 64 Z" fill="#ff9e6d"/>
+    <path d="M300 0 L360 0 C355 36 335 56 300 64 Z" fill="#ff7abf"/>
+    <path d="M360 0 L420 0 C415 36 395 56 360 64 Z" fill="#ffd86a"/>
+    <path d="M420 0 L480 0 C475 36 455 56 420 64 Z" fill="#76d9ff"/>
+    <path d="M480 0 L540 0 C535 36 515 56 480 64 Z" fill="#96f0b8"/>
+    <path d="M540 0 L600 0 C595 36 575 56 540 64 Z" fill="#ff9e6d"/>
+    <path d="M600 0 L660 0 C655 36 635 56 600 64 Z" fill="#ff7abf"/>
+    <path d="M660 0 L720 0 C715 36 695 56 660 64 Z" fill="#ffd86a"/>
+    <path d="M720 0 L780 0 C775 36 755 56 720 64 Z" fill="#76d9ff"/>
+    <path d="M780 0 L840 0 C835 36 815 56 780 64 Z" fill="#96f0b8"/>
+    <path d="M840 0 L900 0 C895 36 875 56 840 64 Z" fill="#ff9e6d"/>
+    <path d="M900 0 L960 0 C955 36 935 56 900 64 Z" fill="#ff7abf"/>
+    <path d="M960 0 L1020 0 C1015 36 995 56 960 64 Z" fill="#ffd86a"/>
+    <path d="M1020 0 L1080 0 C1075 36 1055 56 1020 64 Z" fill="#76d9ff"/>
+    <path d="M1080 0 L1140 0 C1135 36 1115 56 1080 64 Z" fill="#96f0b8"/>
+    <path d="M1140 0 L1200 0 C1195 36 1175 56 1140 64 Z" fill="#ff9e6d"/>
+  </g>
+</svg>
+
