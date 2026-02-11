@@ -1,5 +1,5 @@
 // Minimal offline cache: pre-cache app shell; runtime-cache same-origin GET requests.
-const CACHE_NAME = "wam-cache-v50";
+const CACHE_NAME = "wam-cache-v51";
 const SHELL = [
   "./",
   "./index.html",
