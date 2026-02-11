@@ -59,7 +59,7 @@ Behavior:
 
 ## User-Provided Kawaii Packs (Integrated)
 - Gameplay sprite sets (switchable in settings):
-  - `public/assets/original/sprite-sets/set_a/` (6 figures)
+  - `public/assets/original/sprite-sets/set_a/` (5 figures)
   - `public/assets/original/sprite-sets/set_b/` (6 figures)
   - source notes: `public/assets/original/sprite-sets/SOURCES.md`
 - UI skin sheets + derived slices:

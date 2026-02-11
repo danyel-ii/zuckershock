@@ -11,8 +11,7 @@ Runtime-active gameplay packs:
   - `/Users/danyel-ii/Downloads/8b7e88ff0dfbc79ae9b1bde38a5e9c12.png`
   - `/Users/danyel-ii/Downloads/9dd111d3515c0365da4016807ee1a999.png`
 - Notes:
-  - Set A now contains 6 transparent kitty variants (`1.png` to `6.png`).
-  - `6.png` was key-cleaned from a dark-background image to preserve transparency in-game.
+  - Set A currently contains 5 transparent kitty variants (`1.png` to `5.png`).
 
 ## Set B (`public/assets/original/sprite-sets/set_b/`)
 - Source image (user-provided local file):

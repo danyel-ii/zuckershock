@@ -71,7 +71,13 @@ const attemptButtons = Array.from(document.querySelectorAll("[data-max-attempts]
 const spritePackButtons = Array.from(document.querySelectorAll("[data-sprite-pack]"));
 const ROUND_LEVELS = 4;
 const LEVEL_DURATION_MS = 45_000;
-const LANDING_SET_A_COUNT = 6;
+const LANDING_SET_A_ASSETS = [
+  "./assets/original/sprite-sets/set_a/1.png",
+  "./assets/original/sprite-sets/set_a/2.png",
+  "./assets/original/sprite-sets/set_a/3.png",
+  "./assets/original/sprite-sets/set_a/4.png",
+  "./assets/original/sprite-sets/set_a/5.png",
+];
 
 function cleanMaxAttempts(value) {
   const n = Math.floor(Number(value));
@@ -80,14 +86,15 @@ function cleanMaxAttempts(value) {
 }
 
 function pickRandomSpriteAsset() {
-  const idx = 1 + Math.floor(Math.random() * LANDING_SET_A_COUNT);
-  return `./assets/original/sprite-sets/set_a/${idx}.png`;
+  if (LANDING_SET_A_ASSETS.length === 0) return "./assets/original/sprite-sets/set_b/1.png";
+  const idx = Math.floor(Math.random() * LANDING_SET_A_ASSETS.length);
+  return LANDING_SET_A_ASSETS[idx];
 }
 
 function randomizeLandingSpriteDecor() {
   const app = document.querySelector(".app");
   if (!(app instanceof HTMLElement)) return;
-  const pool = Array.from({ length: LANDING_SET_A_COUNT }, (_, i) => `./assets/original/sprite-sets/set_a/${i + 1}.png`);
+  const pool = [...LANDING_SET_A_ASSETS];
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     const t = pool[i];
