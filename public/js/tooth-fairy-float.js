@@ -1,8 +1,9 @@
 function makeFairies() {
+  const sizeScale = 1.95;
   return [
-    { xRatio: 0.15, yRatio: 0.23, size: 92, amp: 16, speed: 0.72, drift: 11, phase: 0.4 },
-    { xRatio: 0.5, yRatio: 0.17, size: 104, amp: 20, speed: 0.63, drift: 14, phase: 1.7 },
-    { xRatio: 0.84, yRatio: 0.26, size: 88, amp: 14, speed: 0.78, drift: 10, phase: 3.1 },
+    { fallbackY: 0.23, boardY: 0.2, sideNudge: 0, size: Math.round(92 * sizeScale), amp: 16, speed: 0.72, drift: 11, phase: 0.4 },
+    { fallbackY: 0.17, boardY: 0.5, sideNudge: 8, size: Math.round(104 * sizeScale), amp: 20, speed: 0.63, drift: 14, phase: 1.7 },
+    { fallbackY: 0.26, boardY: 0.78, sideNudge: -6, size: Math.round(88 * sizeScale), amp: 14, speed: 0.78, drift: 10, phase: 3.1 },
   ];
 }
 
@@ -35,6 +36,7 @@ export function initToothFairyFloats() {
   }
 
   const appEl = document.querySelector(".app");
+  const boardWrapEl = document.querySelector(".board-wrap");
   const readReducedMotion = () => appEl?.getAttribute("data-reduced-motion") === "true";
   const fairies = makeFairies();
   const state = { visibleCount: fairies.length };
@@ -72,6 +74,10 @@ export function initToothFairyFloats() {
 
       const t = p.millis() / 1000;
       const reduced = readReducedMotion();
+      const boardRect =
+        boardWrapEl instanceof HTMLElement && boardWrapEl.getBoundingClientRect().width > 0
+          ? boardWrapEl.getBoundingClientRect()
+          : null;
 
       for (let i = 0; i < state.visibleCount; i++) {
         const f = fairies[i];
@@ -79,13 +85,21 @@ export function initToothFairyFloats() {
         const bob = reduced ? 0 : Math.sin(t * f.speed + f.phase) * f.amp;
         const roll = reduced ? 0 : Math.sin(t * (0.8 + i * 0.1) + f.phase) * 0.08;
 
-        const x = p.width * f.xRatio + drift;
-        const y = p.height * f.yRatio + bob;
+        const minX = f.size * 0.5 + 8;
+        const maxX = p.width - f.size * 0.5 - 8;
+        const minY = f.size * 0.5 + 8;
+        const maxY = p.height - f.size * 0.5 - 8;
+        const rightGap = Math.max(12, Math.min(52, Math.round(p.width * 0.03)));
+        const anchorX = boardRect ? boardRect.right + rightGap + f.size * 0.5 + f.sideNudge : p.width * 0.88 + f.sideNudge;
+        const anchorY = boardRect ? boardRect.top + boardRect.height * f.boardY : p.height * f.fallbackY;
+        const x = p.constrain(anchorX + drift, minX, maxX);
+        const y = p.constrain(anchorY + bob, minY, maxY);
 
         p.push();
         p.translate(x, y);
         p.rotate(roll);
-        p.tint(255, 240);
+        // Keep original PNG alpha; do not fade the sprite globally.
+        p.noTint();
         p.image(fairyImg, 0, 0, f.size, f.size);
         p.pop();
       }

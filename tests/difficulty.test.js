@@ -38,16 +38,21 @@ test("relax mode has no decoys", () => {
   }
 });
 
-test("speed profile 'langsam' makes spawn and visibility slower than normal", () => {
+test("speed profile 'schwierig' is faster than normal", () => {
   const normal = getDifficultyParams({ elapsedSec: 25, mode: "classic", profile: profileBig, speed: "normal" });
-  const slow = getDifficultyParams({ elapsedSec: 25, mode: "classic", profile: profileBig, speed: "langsam" });
-  assert.ok(slow.spawnIntervalMs > normal.spawnIntervalMs);
-  assert.ok(slow.visibleMs > normal.visibleMs);
+  const hard = getDifficultyParams({ elapsedSec: 25, mode: "classic", profile: profileBig, speed: "schwierig" });
+  assert.ok(hard.spawnIntervalMs < normal.spawnIntervalMs);
+  assert.ok(hard.visibleMs < normal.visibleMs);
 });
 
-test("speed profile 'schnell' makes spawn and visibility faster than normal", () => {
-  const normal = getDifficultyParams({ elapsedSec: 25, mode: "classic", profile: profileBig, speed: "normal" });
-  const fast = getDifficultyParams({ elapsedSec: 25, mode: "classic", profile: profileBig, speed: "schnell" });
-  assert.ok(fast.spawnIntervalMs < normal.spawnIntervalMs);
-  assert.ok(fast.visibleMs < normal.visibleMs);
+test("speed profile 'sehr_schwierig' is faster than schwierig", () => {
+  const hard = getDifficultyParams({ elapsedSec: 25, mode: "classic", profile: profileBig, speed: "schwierig" });
+  const veryHard = getDifficultyParams({
+    elapsedSec: 25,
+    mode: "classic",
+    profile: profileBig,
+    speed: "sehr_schwierig",
+  });
+  assert.ok(veryHard.spawnIntervalMs < hard.spawnIntervalMs);
+  assert.ok(veryHard.visibleMs < hard.visibleMs);
 });

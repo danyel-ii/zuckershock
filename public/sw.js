@@ -1,5 +1,5 @@
 // Minimal offline cache: pre-cache app shell; runtime-cache same-origin GET requests.
-const CACHE_NAME = "wam-cache-v22";
+const CACHE_NAME = "wam-cache-v41";
 const SHELL = [
   "./",
   "./index.html",
@@ -36,6 +36,8 @@ const SHELL = [
   "./assets/original/fonts/MGF-PinlockPersonalUse.otf",
   "./assets/original/backgrounds/kawaii-avocado-bg.png",
   "./assets/original/backgrounds/kawaii-summer.jpg",
+  "./assets/original/backgrounds/kawaii-food-wallpaper.jpg",
+  "./assets/original/backgrounds/kawaii-food-bg-1344879.png",
 ];
 
 self.addEventListener("install", (event) => {

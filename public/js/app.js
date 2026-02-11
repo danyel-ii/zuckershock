@@ -252,7 +252,7 @@ for (const btn of modeButtons) {
 for (const btn of speedButtons) {
   btn.addEventListener("click", () => {
     const speed = btn.getAttribute("data-speed");
-    if (speed !== "langsam" && speed !== "normal" && speed !== "schnell") return;
+    if (speed !== "normal" && speed !== "schwierig" && speed !== "sehr_schwierig") return;
     settings.speed = speed;
     saveSettings(settings);
     syncUI();
@@ -646,12 +646,17 @@ function renderForbiddenRunner(view) {
   forbiddenRunner.style.width = `${dynamicRunner}px`;
   forbiddenRunner.style.height = `${dynamicRunner}px`;
   const runnerW = forbiddenRunner.offsetWidth || dynamicRunner;
+  const runnerH = forbiddenRunner.offsetHeight || dynamicRunner;
   const p = Math.max(0, Math.min(1, forbidden.progress ?? 0));
-  const inset = Math.max(2, Math.round(trackW * 0.015));
-  const startX = forbidden.direction === "ltr" ? inset : Math.max(inset, trackW - runnerW - inset);
-  const endX = forbidden.direction === "ltr" ? Math.max(inset, trackW - runnerW - inset) : inset;
+  const sideInset = Math.max(10, Math.round(trackW * 0.03));
+  const verticalInset = Math.max(2, Math.round(trackH * 0.04));
+  const maxX = Math.max(sideInset, trackW - runnerW - sideInset);
+  const maxY = Math.max(verticalInset, trackH - runnerH - verticalInset);
+  const startX = forbidden.direction === "ltr" ? sideInset : maxX;
+  const endX = forbidden.direction === "ltr" ? maxX : sideInset;
   const x = startX + (endX - startX) * p;
-  forbiddenRunner.style.transform = `translate3d(${x}px, 0, 0)`;
+  const y = Math.min(maxY, Math.max(verticalInset, Math.round((trackH - runnerH) / 2)));
+  forbiddenRunner.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 
   const secsLeft = Math.max(0, Math.ceil((forbidden.remainingMs ?? 0) / 1000));
   const readyIn = Math.max(0, Math.ceil((forbidden.activationRemainingMs ?? 0) / 1000));

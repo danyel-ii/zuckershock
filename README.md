@@ -34,7 +34,7 @@ npm test
 - Screen-size caps (max holes, simultaneous targets): `public/js/app.js` (`computeBoardProfile()`)
 - Character variants look: `public/js/game/art.js`
 - Forbidden-runner rules/timing/scoring: `public/js/game/game-core.js`
-- Speed profiles (`Langsam`, `Normal`, `Schnell`): `public/js/game/difficulty.js` (`SPEED_PROFILES`)
+- Speed profiles (`Normal`, `Schwierig`, `Sehr schwierig`): `public/js/game/difficulty.js` (`SPEED_PROFILES`)
 
 ## Extra Kawaii Food Asset Pool
 - Added exploration assets (vegetables + foods) at:
@@ -70,7 +70,7 @@ Classic mode (4 Stufen, je 45s = 180s) ramps:
 - Arrow keys move across the hole grid
 - Enter/Space bonks the focused hole
 - Settings has **Reduced motion** toggle
-- Settings has 3 speed levels: **Langsam / Normal / Schnell**
+- Settings has 3 speed levels: **Normal / Schwierig / Sehr schwierig**
 
 ## Privacy
 Local-only storage:

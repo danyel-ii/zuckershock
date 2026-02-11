@@ -43,7 +43,7 @@ pre-caches those module URLs too.
 - A small controller API (`setVisibleCount`, `reset`) kept this decorative layer easy to sync with game state.
 
 ## Speed Should Be A Profile, Not A Magic Number
-- We implemented speed as named profiles (`langsam`, `normal`, `schnell`) and applied them in one place.
+- We implemented speed as named profiles (`normal`, `schwierig`, `sehr_schwierig`) and applied them in one place.
 - Centralized multipliers made it easy to tune spawn, visibility, and forbidden-runner pace consistently.
 
 ## Milestones Can Restore Agency

@@ -15,7 +15,7 @@
   --avocado-pit: #7a5443;
   --avocado-ink: #172615;
   --avocado-line: rgba(53, 86, 45, 0.42);
-  --focus-ring: rgba(58, 117, 39, 0.52);
+  --focus-ring: rgba(190, 148, 133, 0.66);
   --surface-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.16));
   --surface-grain: repeating-linear-gradient(
     135deg,
@@ -34,14 +34,14 @@
 
   --bg1: #d6f1b5;
   --bg2: #b9eb97;
-  --ink: var(--avocado-ink);
-  --muted: rgba(23, 38, 21, 0.74);
-  --card: rgba(255, 255, 255, 0.8);
-  --card2: rgba(255, 255, 255, 0.96);
-  --stroke: rgba(51, 84, 43, 0.23);
-  --shadow: rgba(27, 48, 21, 0.2);
-  --primary: #98c26b;
-  --primary2: #dcecb6;
+  --ink: #3d3835;
+  --muted: rgba(81, 71, 65, 0.78);
+  --card: rgba(248, 223, 200, 0.84);
+  --card2: rgba(253, 251, 243, 0.96);
+  --stroke: rgba(148, 125, 111, 0.42);
+  --shadow: rgba(61, 56, 53, 0.24);
+  --primary: #d9b19e;
+  --primary2: #efccb7;
   --good: #1b915b;
   --bad: #b84e47;
   --radius: 18px;
@@ -75,14 +75,10 @@ body {
   margin: 0;
   font-family: var(--font);
   color: var(--ink);
-  background-image: radial-gradient(1100px 650px at 12% 8%, rgba(224, 255, 188, 0.42), transparent 64%),
-    radial-gradient(900px 650px at 90% 18%, rgba(188, 237, 155, 0.34), transparent 62%),
-    linear-gradient(180deg, rgba(249, 255, 238, 0.4), rgba(237, 255, 223, 0.24)),
-    url("./assets/original/backgrounds/kawaii-avocado-bg.png"),
-    url("./assets/original/backgrounds/kawaii-summer.jpg");
-  background-size: auto, auto, auto, cover, cover;
-  background-position: center top, center top, center top, center top, center top;
-  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-image: url("./assets/original/backgrounds/kawaii-food-bg-1344879.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
 }
 
 body.body--in-game {
@@ -149,7 +145,8 @@ body.body--in-game {
   width: 44px;
   height: 44px;
   border-radius: 16px;
-  background-image: radial-gradient(circle at 30% 28%, #f4fcb4 0 24%, #80b866 62%, #2f7a35 100%),
+  background-image: url("./assets/original/kawaii-sweets/3.png"),
+    radial-gradient(circle at 30% 28%, #f4fcb4 0 24%, #80b866 62%, #2f7a35 100%),
     repeating-linear-gradient(
       45deg,
       rgba(255, 255, 255, 0.5) 0,
@@ -157,6 +154,9 @@ body.body--in-game {
       rgba(255, 255, 255, 0.08) 4px,
       rgba(255, 255, 255, 0.08) 8px
     );
+  background-size: 86% 86%, auto, auto;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center, center, center;
   box-shadow: 0 10px 24px var(--shadow);
   border: 1px solid rgba(52, 98, 40, 0.38);
 }
@@ -203,6 +203,85 @@ body.body--in-game {
   overflow: hidden;
 }
 
+#screen-title .card {
+  border-color: rgba(113, 120, 130, 0.46);
+  background-image: radial-gradient(132% 96% at 50% -14%, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0) 58%),
+    radial-gradient(125% 108% at 95% 104%, rgba(128, 137, 149, 0.24), rgba(128, 137, 149, 0) 58%),
+    var(--surface-grain), var(--surface-fiber),
+    linear-gradient(160deg, rgba(246, 248, 251, 0.95) 0%, rgba(226, 232, 239, 0.91) 46%, rgba(191, 200, 212, 0.86) 100%);
+  background-size: auto, auto, 16px 16px, 18px 18px, auto;
+  background-repeat: no-repeat, no-repeat, repeat, repeat, no-repeat;
+  box-shadow: 0 22px 44px rgba(37, 44, 54, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    inset 0 -16px 26px rgba(102, 112, 126, 0.2), inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+}
+
+#screen-title .leaderboard-panel {
+  border-color: rgba(116, 123, 132, 0.46);
+  background-image: radial-gradient(128% 100% at 50% 0%, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0) 58%),
+    var(--surface-grain), linear-gradient(170deg, rgba(249, 251, 253, 0.92), rgba(217, 223, 232, 0.76));
+  background-size: auto, 16px 16px, auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 0 -10px 18px rgba(108, 117, 129, 0.2),
+    0 10px 20px rgba(52, 59, 70, 0.17);
+}
+
+#screen-title .leaderboard__item {
+  border-color: rgba(114, 121, 131, 0.34);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(225, 231, 239, 0.72)),
+    repeating-linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.1) 0,
+      rgba(255, 255, 255, 0.1) 1px,
+      rgba(255, 255, 255, 0) 1px,
+      rgba(255, 255, 255, 0) 8px
+    );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72), 0 5px 12px rgba(61, 68, 80, 0.16);
+}
+
+#screen-title .leaderboard__rank {
+  color: rgba(63, 74, 88, 0.78);
+}
+
+#screen-title .leaderboard__mode {
+  border-color: rgba(99, 109, 122, 0.42);
+  color: #334153;
+  background: linear-gradient(180deg, rgba(242, 245, 249, 0.98), rgba(211, 218, 227, 0.84));
+}
+
+#screen-title .segmented {
+  border-color: rgba(117, 123, 132, 0.45);
+  background-image: linear-gradient(180deg, rgba(248, 250, 252, 0.95), rgba(216, 222, 231, 0.82)), var(--surface-grain);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -6px 12px rgba(105, 114, 127, 0.19);
+}
+
+#screen-title .segmented__btn {
+  color: #3a2f61;
+  background: linear-gradient(
+    128deg,
+    rgba(255, 157, 208, 0.95) 0%,
+    rgba(255, 214, 142, 0.95) 24%,
+    rgba(255, 245, 154, 0.95) 44%,
+    rgba(163, 234, 176, 0.95) 64%,
+    rgba(157, 221, 255, 0.95) 82%,
+    rgba(198, 171, 255, 0.95) 100%
+  );
+  box-shadow: 0 6px 14px rgba(114, 90, 156, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+#screen-title .segmented__btn[aria-pressed="true"] {
+  background: linear-gradient(
+    132deg,
+    rgba(255, 125, 195, 0.98) 0%,
+    rgba(255, 188, 122, 0.98) 24%,
+    rgba(248, 238, 122, 0.98) 42%,
+    rgba(131, 219, 154, 0.98) 62%,
+    rgba(130, 205, 255, 0.98) 80%,
+    rgba(171, 141, 248, 0.98) 100%
+  );
+  color: #2e2253;
+  box-shadow: 0 10px 20px rgba(101, 84, 142, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
 .fairy-overlay {
   position: fixed;
   inset: 0;
@@ -236,6 +315,30 @@ body.body--in-game {
   font-size: clamp(34px, 5.5vw, 54px);
   letter-spacing: -0.6px;
 }
+
+#screen-title .title {
+  margin: 6px 0 10px;
+  font-size: clamp(48px, 9vw, 90px);
+  line-height: 0.94;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2vw, 20px);
+  color: #46fff2;
+  -webkit-text-stroke: 2px #000;
+  paint-order: stroke fill;
+  text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000, 0 0 12px rgba(141, 255, 248, 0.96),
+    0 0 28px rgba(70, 255, 242, 0.82), 0 10px 18px rgba(0, 0, 0, 0.34);
+}
+
+#screen-title .title::before {
+  content: "";
+  width: clamp(58px, 9vw, 96px);
+  height: clamp(58px, 9vw, 96px);
+  flex: 0 0 auto;
+  background: url("./assets/original/kawaii-sweets/2.png") no-repeat center / contain;
+  filter: drop-shadow(0 8px 12px rgba(69, 59, 101, 0.28));
+}
 .title--small {
   font-size: clamp(26px, 4.5vw, 38px);
 }
@@ -244,6 +347,17 @@ body.body--in-game {
   margin: 0 0 14px;
   color: var(--muted);
   font-weight: 700;
+}
+
+#screen-title .tagline {
+  color: #46fff2;
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 0.2px;
+  -webkit-text-stroke: 1px #000;
+  paint-order: stroke fill;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 0 0 9px rgba(141, 255, 248, 0.92),
+    0 0 20px rgba(70, 255, 242, 0.78), 0 4px 12px rgba(0, 0, 0, 0.36);
 }
 
 .card {
@@ -438,41 +552,96 @@ body.body--in-game {
 
 #screen-title .cta {
   justify-content: center;
-  gap: 14px;
+  gap: 16px;
+  align-items: stretch;
 }
 
 #screen-title .cta .btn {
-  min-width: 210px;
-  border-radius: 22px;
-  border-color: transparent;
-  background-image: var(--post-ui-big);
-  background-color: transparent;
-  color: #21472d;
-  font-size: 18px;
+  min-width: 0;
+  width: clamp(146px, 21vw, 208px);
+  min-height: clamp(168px, 25vw, 232px);
+  border-radius: 24px;
+  border: 1px solid rgba(137, 103, 187, 0.56);
+  background-image: radial-gradient(124% 92% at 50% -8%, rgba(255, 255, 255, 0.66), rgba(255, 255, 255, 0) 58%),
+    radial-gradient(120% 108% at 94% 104%, rgba(163, 123, 218, 0.24), rgba(163, 123, 218, 0) 58%), var(--surface-grain),
+    linear-gradient(
+      132deg,
+      rgba(255, 153, 210, 0.96) 0%,
+      rgba(255, 201, 139, 0.96) 24%,
+      rgba(251, 241, 141, 0.96) 42%,
+      rgba(164, 235, 179, 0.96) 61%,
+      rgba(149, 219, 255, 0.96) 80%,
+      rgba(193, 161, 255, 0.96) 100%
+    );
+  background-size: auto, auto, 16px 16px, auto;
+  background-repeat: no-repeat, no-repeat, repeat, no-repeat;
+  color: #3c2a62;
+  font-size: clamp(15px, 1.9vw, 18px);
   letter-spacing: 0.2px;
-  padding: 14px 18px;
-  box-shadow: 0 14px 26px rgba(36, 58, 44, 0.24);
+  line-height: 1.2;
+  text-align: center;
+  padding: clamp(108px, 15vw, 136px) 10px 14px;
+  box-shadow: 0 14px 28px rgba(102, 83, 139, 0.29), inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -12px 22px rgba(138, 108, 186, 0.28);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.65);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
   transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
 }
 
 #screen-title .cta .btn:hover {
   transform: translateY(-2px) scale(1.01);
-  filter: saturate(1.06);
-  box-shadow: 0 18px 30px rgba(36, 58, 44, 0.28);
+  filter: saturate(1.08);
+  box-shadow: 0 18px 32px rgba(111, 86, 158, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.84),
+    inset 0 -12px 22px rgba(145, 112, 197, 0.32);
 }
 
 #screen-title .cta .btn:active {
-  background-image: var(--post-ui-big-press);
   transform: translateY(0) scale(0.99);
+  box-shadow: 0 10px 20px rgba(99, 78, 141, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.64),
+    inset 0 -10px 18px rgba(131, 106, 177, 0.3);
+}
+
+#screen-title .cta .btn::after {
+  display: none;
+}
+
+#screen-title .cta .btn::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  width: clamp(92px, 13vw, 126px);
+  height: clamp(92px, 13vw, 126px);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  filter: drop-shadow(0 8px 12px rgba(43, 52, 66, 0.22));
+  pointer-events: none;
+}
+
+#screen-title .cta #startBtn::before {
+  background-image: url("./assets/original/kawaii-sweets/1.png");
+}
+
+#screen-title .cta #settingsBtn::before {
+  background-image: url("./assets/original/kawaii-sweets/4.png");
 }
 
 #screen-title .cta .btn--primary {
-  background-image: var(--post-ui-big-press);
-  color: #143d24;
+  border-color: rgba(131, 96, 187, 0.65);
+  color: #332452;
 }
 
 #screen-title .cta .btn--primary::before {
-  opacity: 0.88;
+  background-image: url("./assets/original/kawaii-sweets/2.png");
+}
+
+#screen-title .cta .btn:not(.btn--primary)::before {
+  background-image: url("./assets/original/kawaii-sweets/4.png");
 }
 
 .btn {
@@ -630,6 +799,8 @@ body.body--in-game {
   border: 1px dashed rgba(94, 162, 83, 0.8);
   min-height: clamp(92px, 14vh, 132px);
   overflow: hidden;
+  padding: 2px 0;
+  box-sizing: border-box;
   background-image: linear-gradient(180deg, rgba(244, 255, 245, 0.84), rgba(214, 236, 203, 0.36)), var(--post-ui-bg);
   background-size: auto, cover;
   background-repeat: no-repeat, no-repeat;
@@ -656,8 +827,8 @@ body.body--in-game {
 
 .forbidden-runner__badge {
   position: absolute;
-  left: -3px;
-  top: -3px;
+  left: 4px;
+  top: 4px;
   font-size: 11px;
   font-weight: 900;
   padding: 5px 7px;
@@ -1183,6 +1354,181 @@ body.body--in-game {
   font-weight: 800;
 }
 
+/* Theme pass using sampled background palette tones */
+.card,
+#screen-title .card,
+.leaderboard-panel,
+#screen-title .leaderboard-panel,
+.hud,
+.forbidden-lane,
+.board-wrap,
+.overlay__panel,
+.toggle,
+.level-break__card {
+  border-color: rgba(148, 125, 111, 0.56);
+  background-image: radial-gradient(124% 92% at 50% -8%, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0) 58%),
+    var(--surface-grain), linear-gradient(180deg, rgba(253, 251, 243, 0.95), rgba(239, 204, 183, 0.78));
+  background-size: auto, 16px 16px, auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+  box-shadow: 0 18px 40px rgba(61, 56, 53, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -14px 24px rgba(148, 125, 111, 0.2);
+}
+
+.leaderboard__item,
+#screen-title .leaderboard__item {
+  border-color: rgba(148, 125, 111, 0.42);
+  background-image: linear-gradient(180deg, rgba(253, 251, 243, 0.92), rgba(248, 223, 200, 0.76)),
+    repeating-linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.1) 0,
+      rgba(255, 255, 255, 0.1) 1px,
+      rgba(255, 255, 255, 0) 1px,
+      rgba(255, 255, 255, 0) 8px
+    );
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.76), 0 5px 12px rgba(61, 56, 53, 0.14);
+}
+
+.leaderboard__rank,
+#screen-title .leaderboard__rank {
+  color: rgba(81, 71, 65, 0.86);
+}
+
+.leaderboard__mode,
+#screen-title .leaderboard__mode {
+  border-color: rgba(148, 125, 111, 0.48);
+  color: #514741;
+  background: linear-gradient(180deg, rgba(253, 251, 243, 0.98), rgba(239, 204, 183, 0.84));
+}
+
+.leaderboard__empty {
+  color: rgba(81, 71, 65, 0.76);
+}
+
+.forbidden-lane__label {
+  color: rgba(61, 56, 53, 0.96);
+}
+
+.forbidden-lane__track {
+  border-color: rgba(148, 125, 111, 0.86);
+  background-image: linear-gradient(180deg, rgba(253, 251, 243, 0.9), rgba(248, 223, 200, 0.58));
+  background-size: auto;
+}
+
+.board-wrap::before {
+  background-image: radial-gradient(240px 120px at 18% 24%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)),
+    radial-gradient(220px 110px at 78% 18%, rgba(239, 204, 183, 0.52), rgba(239, 204, 183, 0)),
+    repeating-radial-gradient(
+      circle at 50% 140%,
+      rgba(190, 148, 133, 0.18) 0 18px,
+      rgba(190, 148, 133, 0) 18px 42px
+    );
+}
+
+.board-wrap::after {
+  border-color: rgba(253, 251, 243, 0.9);
+  box-shadow: inset 0 0 0 3px rgba(190, 148, 133, 0.3);
+}
+
+.board-wrap .board::before {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.93), rgba(248, 223, 200, 0.66) 62%, rgba(190, 148, 133, 0.26));
+  box-shadow: 0 6px 14px rgba(81, 71, 65, 0.24);
+}
+
+.board-wrap .board::after {
+  background: radial-gradient(circle at 28% 28%, rgba(255, 255, 255, 0.94), rgba(251, 240, 220, 0.64) 58%, rgba(190, 148, 133, 0.24));
+  box-shadow: 0 5px 12px rgba(81, 71, 65, 0.22);
+}
+
+.hole {
+  border-color: rgba(207, 140, 129, 0.62);
+  background-image: linear-gradient(180deg, rgba(253, 251, 243, 0.92), rgba(243, 210, 189, 0.72)),
+    radial-gradient(120px 90px at 40% 20%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0)),
+    radial-gradient(150px 100px at 60% 88%, rgba(230, 170, 154, 0.28), rgba(230, 170, 154, 0)),
+    url("./assets/original/kawaii-gui/panel-blue-tight.png");
+  box-shadow: 0 14px 30px rgba(116, 75, 66, 0.24), inset 0 0 0 1px rgba(253, 251, 243, 0.78);
+}
+
+.hole::before {
+  background: radial-gradient(240px 160px at 20% 10%, rgba(253, 251, 243, 0.84), transparent 60%),
+    radial-gradient(240px 160px at 80% 10%, rgba(243, 210, 189, 0.74), transparent 62%),
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.26) 0,
+      rgba(255, 255, 255, 0.26) 6px,
+      rgba(255, 255, 255, 0.02) 6px,
+      rgba(255, 255, 255, 0.02) 14px
+    );
+}
+
+.hole__pit {
+  background: radial-gradient(circle at 50% 40%, rgba(207, 140, 129, 0.9), rgba(148, 125, 111, 0.64));
+  box-shadow: inset 0 10px 18px rgba(81, 71, 65, 0.34);
+}
+
+.hole__lip {
+  background: linear-gradient(180deg, rgba(248, 223, 200, 0.98), rgba(235, 198, 178, 0.44));
+  border-color: rgba(171, 155, 137, 0.52);
+  box-shadow: 0 12px 22px rgba(97, 85, 75, 0.24);
+}
+
+.segmented,
+#screen-title .segmented {
+  border-color: rgba(148, 125, 111, 0.5);
+  background-image: linear-gradient(180deg, rgba(253, 251, 243, 0.95), rgba(239, 204, 183, 0.84)), var(--surface-grain);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -6px 12px rgba(148, 125, 111, 0.2);
+}
+
+.segmented__btn,
+#screen-title .segmented__btn {
+  color: #514741;
+}
+
+#screen-title .segmented__btn {
+  background: linear-gradient(180deg, rgba(253, 251, 243, 0.96), rgba(248, 223, 200, 0.84));
+  box-shadow: 0 6px 14px rgba(81, 71, 65, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.64);
+}
+
+.segmented__btn[aria-pressed="true"],
+#screen-title .segmented__btn[aria-pressed="true"] {
+  background: linear-gradient(180deg, rgba(239, 204, 183, 0.98), rgba(190, 148, 133, 0.94));
+  color: #333130;
+  box-shadow: 0 10px 22px rgba(81, 71, 65, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+}
+
+.btn,
+.btn--small,
+.btn--primary,
+#screen-title .cta .btn {
+  border-color: rgba(148, 125, 111, 0.64);
+  background-image: radial-gradient(124% 92% at 50% -8%, rgba(255, 255, 255, 0.64), rgba(255, 255, 255, 0) 58%),
+    var(--surface-grain), linear-gradient(180deg, rgba(253, 251, 243, 0.96), rgba(217, 177, 158, 0.92));
+  background-size: auto, 16px 16px, auto;
+  background-repeat: no-repeat, repeat, no-repeat;
+  color: #333130;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  box-shadow: 0 12px 24px rgba(61, 56, 53, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    inset 0 -10px 18px rgba(148, 125, 111, 0.3);
+}
+
+#screen-title .cta .btn:hover {
+  filter: saturate(1.03);
+  box-shadow: 0 18px 32px rgba(61, 56, 53, 0.34), inset 0 1px 0 rgba(255, 255, 255, 0.84),
+    inset 0 -12px 22px rgba(148, 125, 111, 0.32);
+}
+
+.btn:active,
+.btn.btn--small:active,
+.btn.btn--primary:active,
+#screen-title .cta .btn:active {
+  background-image: radial-gradient(124% 92% at 50% -8%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 58%),
+    var(--surface-grain), linear-gradient(180deg, rgba(239, 204, 183, 0.98), rgba(190, 148, 133, 0.94));
+}
+
+#screen-title .cta .btn--primary {
+  border-color: rgba(116, 100, 91, 0.7);
+  color: #282726;
+}
+
 .announcer {
   position: absolute;
   left: -9999px;
@@ -1211,6 +1557,13 @@ body.body--in-game {
   }
   .btn {
     width: 100%;
+  }
+  #screen-title .cta .btn {
+    width: clamp(136px, 41vw, 192px);
+    min-height: clamp(156px, 46vw, 218px);
+  }
+  #screen-title .cta {
+    justify-content: center;
   }
   #pauseBtn {
     width: auto;

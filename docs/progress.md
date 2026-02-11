@@ -555,7 +555,7 @@
 ## 2026-02-11 (3-Stufen-Geschwindigkeit)
 - What changed:
   - Added a persisted speed setting with 3 levels in settings overlay:
-    - `Langsam`, `Normal`, `Schnell`
+    - `Normal`, `Schwierig`, `Sehr schwierig`
   - Wired speed into game pacing:
     - spawn interval and visible time scale by selected speed profile
     - forbidden runner traverse time also scales with speed
@@ -564,7 +564,7 @@
 - Why:
   - You requested that game speed should be configurable with 3 choices.
 - How to test:
-  - Open settings and switch speed between `Langsam`, `Normal`, `Schnell`.
+  - Open settings and switch speed between `Normal`, `Schwierig`, `Sehr schwierig`.
   - Start rounds and verify pacing difference is clearly noticeable.
   - Verify chosen speed persists after reload.
   - Run `npm test`.
@@ -670,3 +670,284 @@
   - Hard reload once so newest SW cache is active.
 - What I learned:
   - Layering subtle grain + sheen + inner shadow creates depth without requiring new texture image assets.
+
+## 2026-02-11 (Floating-Objekt Transparenz Beibehalten)
+- What changed:
+  - Removed global alpha fade from floating tooth-fairy rendering in `public/js/tooth-fairy-float.js`.
+  - Sprite now renders with original PNG alpha channel (`noTint()` instead of reduced tint alpha).
+  - Bumped service-worker cache to `wam-cache-v23`.
+- Why:
+  - You requested that transparency of the floating objects remains preserved.
+- How to test:
+  - Open title/game screens and verify fairies keep transparent edges/background.
+  - Hard reload once so latest SW cache is active.
+- What I learned:
+  - A single `tint` alpha on canvas sprites can unintentionally change the intended transparency look.
+
+## 2026-02-11 (Speed-Stufen Umbenannt Auf Normal/Schwierig/Sehr Schwierig)
+- What changed:
+  - Replaced speed tier keys and UI labels:
+    - from `Langsam/Normal/Schnell`
+    - to `Normal/Schwierig/Sehr schwierig`
+  - Updated speed profile tuning in `public/js/game/difficulty.js`.
+  - Added backward-compatible setting migration:
+    - old `langsam` -> `normal`
+    - old `schnell` -> `schwierig`
+  - Updated settings UI values in `public/index.html` and validation in `public/js/app.js`.
+  - Updated tests and docs references to the new names.
+  - Bumped service-worker cache to `wam-cache-v24`.
+- Why:
+  - You requested exactly three speed levels named `normal`, `schwierig`, and `sehr schwierig` across the 4-level game.
+- How to test:
+  - Open settings and verify exactly these three options appear.
+  - Start rounds on each option and verify pacing increases from normal -> schwierig -> sehr schwierig.
+  - Reload page and verify selected speed persists.
+
+## 2026-02-11 (Landing-Buttons Als Sprite-Buttons)
+- What changed:
+  - Replaced title-screen CTA visuals with sprite-based buttons using kawaii sweets assets.
+  - Start and settings buttons now render as large sprite cards with text labels.
+  - Removed title-only default button decorators/icons so sprites remain the primary visual.
+  - Added mobile overrides so sprite-buttons keep intended sizing instead of stretching full-width.
+  - Bumped service-worker cache to `wam-cache-v25`.
+- Why:
+  - You requested that landing-page buttons should be replaced by sprites.
+- How to test:
+  - Open title screen and verify both CTA buttons are sprite-first visuals.
+  - Check desktop + mobile width: buttons should stay sprite-like, not full-width bars.
+  - Verify click/tap still starts the game and opens settings.
+
+## 2026-02-11 (Landing-Panels Auf Grau-Verlauf Umgestellt)
+- What changed:
+  - Updated title-screen panel styling in `public/styles.css` from green accents to neutral gray transitions.
+  - Restyled landing-only surfaces:
+    - `#screen-title .card`
+    - `#screen-title .leaderboard-panel`
+    - `#screen-title .leaderboard__item`
+    - `#screen-title .segmented`
+    - `#screen-title .cta .btn`
+  - Kept sprite-based button icons unchanged while switching only panel/background tones to gray.
+  - Bumped service-worker cache to `wam-cache-v26`.
+- Why:
+  - You requested that landing-page panels should no longer appear green and should use gray transition coloring.
+- How to test:
+  - Open the start screen and verify panel/cards and segmented control are gray-toned.
+  - Confirm sprite icons still appear on the two CTA cards.
+  - Hard reload once so latest service-worker cache is active.
+
+## 2026-02-11 (Landing-Titel Vergrößert + Rainbow-Buttons)
+- What changed:
+  - Increased landing-page title size and added a visible sprite icon directly next to `Zucker-Schock`.
+  - Replaced empty logo look by rendering a kawaii sprite inside `.brand__logo`.
+  - Restyled landing-page interactive controls with rainbow gradients:
+    - mode segmented buttons (`#screen-title .segmented__btn`)
+    - CTA card buttons (`#screen-title .cta .btn`)
+  - Kept existing sprite icons on CTA buttons.
+  - Bumped service-worker cache to `wam-cache-v27`.
+- Why:
+  - You requested a larger title with a sprite and rainbow-colored panel buttons on the landing page.
+- How to test:
+  - Open title screen and verify header title is larger and includes a sprite icon.
+  - Confirm top-left logo is no longer an empty square.
+  - Verify both landing CTA cards and mode buttons show rainbow color transitions.
+  - Hard reload once so the updated service-worker cache is active.
+
+## 2026-02-11 (Transparenter Regenbogen-Overlay Über Hintergrund)
+- What changed:
+  - Added a transparent rainbow overlay layer via `body::before` in `public/styles.css`.
+  - Kept overlay non-interactive (`pointer-events: none`) and behind the app UI (`z-index: 0`).
+  - Raised `.app` above the overlay (`position: relative; z-index: 1`) so gameplay/content remains clear.
+  - Bumped service-worker cache to `wam-cache-v28`.
+- Why:
+  - You requested a transparent rainbow overlay on the background.
+- How to test:
+  - Open app and verify a soft rainbow tint is visible over the page background.
+  - Confirm buttons/board remain fully usable and readable.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Top-Zeile Komplett Entfernt)
+- What changed:
+  - Removed the entire top header row from `public/index.html`:
+    - title line (`Zucker-Schock`)
+    - subtitle line (`Es war einmal die Zahnfee...`)
+    - top-row icon/logo elements
+  - Bumped service-worker cache to `wam-cache-v29`.
+- Why:
+  - You requested that the top line should disappear completely, including its icons.
+- How to test:
+  - Open app and verify no top row appears above the landing screen content.
+  - Confirm gameplay/start/settings still work as before.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Neues Kawaii-Food Hintergrundbild)
+- What changed:
+  - Added the provided wallpaper as a local asset:
+    - `public/assets/original/backgrounds/kawaii-food-wallpaper.jpg`
+  - Updated `body` background in `public/styles.css` to use the new image as the base background.
+  - Bumped service-worker cache to `wam-cache-v30` and pre-cached the new background file.
+- Why:
+  - You requested this exact image as the app background.
+- How to test:
+  - Open app and verify the new kawaii-food wallpaper is visible behind the UI.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Regenbogen-Overlay Entfernt)
+- What changed:
+  - Removed the transparent rainbow overlay layer (`body::before`) from `public/styles.css`.
+  - Removed now-unneeded layering helpers that were only required for that overlay.
+  - Bumped service-worker cache to `wam-cache-v31`.
+- Why:
+  - You requested to remove the rainbow overlay from the background image.
+- How to test:
+  - Open app and verify the background image is shown without rainbow tint overlay.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Restliche Hintergrund-Overlay-Layer Entfernt)
+- What changed:
+  - Removed remaining gradient layers from the `body` background stack in `public/styles.css`.
+  - Background now uses only the image file:
+    - `url("./assets/original/backgrounds/kawaii-food-wallpaper.jpg")`
+  - Bumped service-worker cache to `wam-cache-v32`.
+- Why:
+  - You reported that an overlay was still visible after the previous change.
+- How to test:
+  - Open app and verify no tint/gradient overlay remains over the wallpaper.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Hintergrundbild Auf 1344879.png Gewechselt)
+- What changed:
+  - Added provided image as local asset:
+    - `public/assets/original/backgrounds/kawaii-food-bg-1344879.png`
+  - Updated `body` background in `public/styles.css` to use this new PNG.
+  - Added new image to service-worker pre-cache and bumped cache to `wam-cache-v33`.
+- Why:
+  - You requested this exact file as the app background.
+- How to test:
+  - Open app and verify the new image is shown as the only page background.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Panels Und Buttons Auf Pink Umgestellt)
+- What changed:
+  - Applied a global pink UI pass in `public/styles.css` for panels and controls.
+  - Updated pink styling for key panel surfaces:
+    - `.card`, `.leaderboard-panel`, `.hud`, `.forbidden-lane`, `.board-wrap`, `.overlay__panel`, `.toggle`, `.level-break__card`
+    - leaderboard row/badge variants and board decorative pseudo-elements
+  - Updated buttons and segmented controls to pink gradients:
+    - `.btn`, `.btn--small`, `.btn--primary`, `#screen-title .cta .btn`
+    - `.segmented`, `.segmented__btn`, pressed states
+  - Updated base theme variables (`--ink`, `--muted`, `--card`, `--stroke`, `--primary`, `--focus-ring`) to pink-friendly values.
+  - Bumped service-worker cache to `wam-cache-v34`.
+- Why:
+  - You requested that panels and buttons should be pink.
+- How to test:
+  - Open landing/game/settings/game-over screens and verify panel/button surfaces are pink.
+  - Verify CTA sprite buttons remain functional and readable.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Landing-Title Und Tagline Als Neon Mit Schwarzer Kontur)
+- What changed:
+  - Restyled `#screen-title .title` to neon green with a black outline/stroke.
+  - Restyled `#screen-title .tagline` to neon cyan with a black outline/stroke.
+  - Added glow shadows for both texts while keeping only the landing page affected.
+  - Bumped service-worker cache to `wam-cache-v35`.
+- Why:
+  - You requested that these two texts should be neon with black border.
+- How to test:
+  - Open landing screen and verify `Zucker-Schock` and the subtitle sentence appear neon with black contour.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Panels/Buttons Auf Hintergrund-Palette Gemappt)
+- What changed:
+  - Replaced the pink panel/button theme with tones sampled from the active background image (`kawaii-food-bg-1344879.png`).
+  - Updated base theme variables in `:root` (`--ink`, `--muted`, `--card`, `--card2`, `--stroke`, `--shadow`, `--primary`, `--primary2`, `--focus-ring`).
+  - Reworked the panel/button override block in `public/styles.css` to use warm neutral palette colors across:
+    - panel surfaces (`.card`, `.leaderboard-panel`, `.hud`, `.forbidden-lane`, `.board-wrap`, `.overlay__panel`, `.toggle`, `.level-break__card`)
+    - segmented controls and pressed states
+    - all buttons including landing CTA buttons
+  - Palette sample anchors used from extraction: `#282726`, `#333130`, `#514741`, `#947d6f`, `#be9485`, `#d9b19e`, `#efccb7`, `#f8dfc8`, `#fbf0dc`, `#fdfbf3`.
+  - Bumped service-worker cache to `wam-cache-v36`.
+- Why:
+  - You requested that all panels and buttons should draw colors from the background image palette.
+- How to test:
+  - Open landing/game/settings/game-over and verify panel/button colors now match the background’s warm palette.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Landing-Texte Auf Neon-Tuerkis Umgestellt)
+- What changed:
+  - Updated landing title text (`#screen-title .title`) to neon turquoise.
+  - Updated landing subtitle line (`#screen-title .tagline`) to the same neon turquoise tone.
+  - Kept black contour/stroke and adjusted glow shadows to turquoise for both lines.
+  - Bumped service-worker cache to `wam-cache-v37`.
+- Why:
+  - You requested both lines to be neon turquoise.
+- How to test:
+  - Open landing screen and verify both lines render in matching neon turquoise.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Board-Felder Pink + Floating-Objekte 1.3x Groesser)
+- What changed:
+  - Restyled game board squares from green to pink tones in `public/styles.css`:
+    - `.hole`
+    - `.hole::before`
+    - `.hole__pit`
+    - `.hole__lip`
+  - Increased floating tooth-fairy sprite size by 1.3x relative to previous size:
+    - `sizeScale` from `1.5` to `1.95` in `public/js/tooth-fairy-float.js`.
+  - Kept transparency behavior unchanged (`p.noTint()` remains in place).
+  - Added horizontal clamp for floating sprites so larger fairies stay fully visible on-screen.
+  - Bumped service-worker cache to `wam-cache-v38`.
+- Why:
+  - You requested pink board squares and 1.3x larger floating objects without losing transparency.
+- How to test:
+  - Start game and verify all board squares/lips are pink (no green fields).
+  - Verify floating tooth fairies are visibly larger and still alpha-transparent.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Forbidden-Ribbon Sprite Vollstaendig Sichtbar)
+- What changed:
+  - Improved forbidden runner placement in `public/js/app.js`:
+    - added larger horizontal safety inset
+    - added vertical inset + centered Y placement inside track
+    - transform now uses `translate3d(x, y, 0)` instead of `y=0`
+  - Updated ribbon CSS in `public/styles.css`:
+    - `forbidden-runner` badge moved fully inside sprite bounds (`left/top: 4px`)
+    - track gets explicit `box-sizing: border-box` and tiny vertical padding for safe rendering
+  - Bumped service-worker cache to `wam-cache-v39`.
+- Why:
+  - You reported that parts of the forbidden sprite ribbon were still cut off.
+- How to test:
+  - Start a game and watch the forbidden runner across full left-to-right/right-to-left travel.
+  - Verify sprite + badge remain fully visible at both edges and during movement.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Board-Felder Auf Dezentes Rosé Aus Hintergrundpalette)
+- What changed:
+  - Replaced bold pink board-hole tones with subtler red/pink shades sampled from the active background palette.
+  - Updated these selectors in `public/styles.css`:
+    - `.hole`
+    - `.hole::before`
+    - `.hole__pit`
+    - `.hole__lip`
+  - Applied palette-based tones such as `#f3d2bd`, `#ebc6b2`, `#e6aa9a`, `#cf8c81` for a softer look.
+  - Bumped service-worker cache to `wam-cache-v40`.
+- Why:
+  - You requested that board squares should not be bold pink but a subtle red/pink from the background.
+- How to test:
+  - Start a round and verify hole tiles read as soft rosé (not saturated pink).
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Alle Drei Floating-Objekte Rechts Vom Board)
+- What changed:
+  - Updated floating tooth-fairy positioning logic in `public/js/tooth-fairy-float.js`:
+    - switched from fixed screen `xRatio` to board-relative anchoring
+    - each fairy now anchors to the right side of `.board-wrap` with a safe horizontal gap
+    - three fairies are distributed vertically along the board side (top/middle/bottom)
+    - fallback behavior keeps them on the right side even if board is not visible
+  - Kept transparency behavior unchanged (`p.noTint()` still used).
+  - Bumped service-worker cache to `wam-cache-v41`.
+- Why:
+  - You requested all three floating objects to float on the right side of the game board.
+- How to test:
+  - Start a game and verify all three fairies stay on the board’s right side while bobbing.
+  - Verify no fairy is rendered on the left side anymore.
+  - Hard reload once so latest SW cache is active.

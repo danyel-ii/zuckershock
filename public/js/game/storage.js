@@ -11,7 +11,10 @@ const DEFAULT_SETTINGS = {
 };
 
 function cleanSpeed(speed) {
-  return speed === "langsam" || speed === "schnell" ? speed : "normal";
+  // Backward-compat for previous setting keys.
+  if (speed === "langsam") return "normal";
+  if (speed === "schnell") return "schwierig";
+  return speed === "schwierig" || speed === "sehr_schwierig" ? speed : "normal";
 }
 
 export function loadSettings() {

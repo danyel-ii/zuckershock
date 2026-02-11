@@ -126,7 +126,7 @@ Relax mode notes:
   - makes strike state immediately visible with kid-friendly visual feedback instead of only numeric counters.
 
 ## 2026-02-11 — Speed Setting With 3 Profiles
-- **Decision:** Add a user-selectable speed setting with three profiles: `langsam`, `normal`, `schnell`.
+- **Decision:** Add a user-selectable speed setting with three profiles: `normal`, `schwierig`, `sehr_schwierig`.
 - **Behavior:**
   - setting lives in persisted app settings and is selectable in the settings overlay
   - modifies `spawnIntervalMs`, `visibleMs`, and forbidden-runner traverse duration

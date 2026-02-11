@@ -146,9 +146,9 @@ test("forbidden variant rotates every 20 seconds", () => {
   assert.notEqual(v2, v1, "forbidden variant should rotate to a new sprite");
 });
 
-test("speed 'schnell' rotates forbidden runner sooner than normal", () => {
+test("speed 'sehr_schwierig' rotates forbidden runner sooner than normal", () => {
   const profile = { cols: 3, startHoles: 5, maxHoles: 9, simCap: 3, variantCount: 4 };
-  const fast = new GameCore({ mode: "classic", profile, seed: 222, durationMs: 60_000, speed: "schnell" });
+  const fast = new GameCore({ mode: "classic", profile, seed: 222, durationMs: 60_000, speed: "sehr_schwierig" });
   fast.start(0);
   const firstVariant = fast.getView().forbidden?.variant;
   assert.ok(Number.isInteger(firstVariant), "forbidden variant should exist at start");

@@ -1,25 +1,28 @@
 import { clamp, clamp01, easeInQuad, lerp } from "./utils.js";
 
 const SPEED_PROFILES = {
-  langsam: {
-    spawnScale: 1.2,
-    visibleScale: 1.2,
-    forbiddenTraverseScale: 1.2,
-  },
   normal: {
     spawnScale: 1,
     visibleScale: 1,
     forbiddenTraverseScale: 1,
   },
-  schnell: {
-    spawnScale: 0.84,
-    visibleScale: 0.84,
-    forbiddenTraverseScale: 0.84,
+  schwierig: {
+    spawnScale: 0.86,
+    visibleScale: 0.86,
+    forbiddenTraverseScale: 0.88,
+  },
+  sehr_schwierig: {
+    spawnScale: 0.74,
+    visibleScale: 0.74,
+    forbiddenTraverseScale: 0.78,
   },
 };
 
 export function cleanSpeed(speed) {
-  return speed === "langsam" || speed === "schnell" ? speed : "normal";
+  // Backward-compat for previous setting keys.
+  if (speed === "langsam") return "normal";
+  if (speed === "schnell") return "schwierig";
+  return speed === "schwierig" || speed === "sehr_schwierig" ? speed : "normal";
 }
 
 export function getSpeedProfile(speed) {
