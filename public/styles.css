@@ -145,7 +145,7 @@ body.body--in-game {
   width: 44px;
   height: 44px;
   border-radius: 16px;
-  background-image: url("./assets/original/kawaii-sweets/3.png"),
+  background-image: url("./assets/original/sprite-sets/set_a/1.png"),
     radial-gradient(circle at 30% 28%, #f4fcb4 0 24%, #80b866 62%, #2f7a35 100%),
     repeating-linear-gradient(
       45deg,
@@ -336,7 +336,7 @@ body.body--in-game {
   width: clamp(58px, 9vw, 96px);
   height: clamp(58px, 9vw, 96px);
   flex: 0 0 auto;
-  background: url("./assets/original/kawaii-sweets/2.png") no-repeat center / contain;
+  background: url("./assets/original/sprite-sets/set_a/2.png") no-repeat center / contain;
   filter: drop-shadow(0 8px 12px rgba(69, 59, 101, 0.28));
 }
 .title--small {
@@ -624,11 +624,11 @@ body.body--in-game {
 }
 
 #screen-title .cta #startBtn::before {
-  background-image: url("./assets/original/kawaii-sweets/1.png");
+  background-image: url("./assets/original/sprite-sets/set_a/1.png");
 }
 
 #screen-title .cta #settingsBtn::before {
-  background-image: url("./assets/original/kawaii-sweets/4.png");
+  background-image: url("./assets/original/sprite-sets/set_a/3.png");
 }
 
 #screen-title .cta .btn--primary {
@@ -637,11 +637,11 @@ body.body--in-game {
 }
 
 #screen-title .cta .btn--primary::before {
-  background-image: url("./assets/original/kawaii-sweets/2.png");
+  background-image: url("./assets/original/sprite-sets/set_a/1.png");
 }
 
 #screen-title .cta .btn:not(.btn--primary)::before {
-  background-image: url("./assets/original/kawaii-sweets/4.png");
+  background-image: url("./assets/original/sprite-sets/set_a/3.png");
 }
 
 .btn {
@@ -1354,6 +1354,40 @@ body.body--in-game {
   font-weight: 800;
 }
 
+.toggle--attempts {
+  display: grid;
+  gap: 8px;
+}
+
+.segmented--attempts {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.segmented--attempts .segmented__btn {
+  width: 100%;
+  min-height: 44px;
+  font-weight: 900;
+}
+
+.toggle--packs {
+  display: grid;
+  gap: 8px;
+}
+
+.segmented--packs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.segmented--packs .segmented__btn {
+  width: 100%;
+  min-height: 44px;
+  font-weight: 800;
+}
+
 /* Theme pass using sampled background palette tones */
 .card,
 #screen-title .card,
@@ -1575,5 +1609,9 @@ body.body--in-game {
   .leaderboard__item {
     grid-template-columns: 38px minmax(0, 1fr) auto auto;
     padding: 7px 8px;
+  }
+  .segmented--attempts .segmented__btn {
+    padding: 8px 0;
+    font-size: 14px;
   }
 }

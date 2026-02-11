@@ -6,15 +6,15 @@
 - Prefer SVG for crisp scaling across devices.
 
 ## Asset List (v1)
-- Background: avocado-themed PNG extracted from user PDF (`kawaii-avocado-bg.png`) + summer JPG fallback (`kawaii-summer.jpg`) + soft green overlays.
-- Board texture: GUI-pack blue panel slice (`panel-blue-tight.png`) with light overlays.
-- Hole texture: softened green panel treatment using GUI slice + gradients for large, readable targets.
-- Critters (4 variants): user-provided kawaii sweets PNGs in `public/assets/original/kawaii-sweets/`.
-- Bonus critter: same sweets sprite + in-game "PRIZE" badge + saturation/glow treatment.
-- Forbidden mechanic: one sprite from the same sweets set is highlighted in a bottom runner lane for 20s; matching board sprites are negative while active.
+- Background: user-provided kawaii image `kawaii-food-bg-1344879.png` (active runtime), with archived alternatives in `public/assets/original/backgrounds/`.
+- Board texture: GUI-pack panel slice (`panel-blue-tight.png`) with soft overlays and palette-matched tinting.
+- Hole texture: subtle rose/pink palette treatment based on active background tones.
+- Critters: runtime sprite packs `Set A` (3) and `Set B` (6) in `public/assets/original/sprite-sets/`.
+- Bonus critter: same active sprite + in-game bonus scoring treatment.
+- Forbidden mechanic: one sprite from the active set is highlighted in a runner lane for 20s; matching board sprites are negative while active.
 - UI skin slices: user-provided GUI pack slices in `public/assets/original/kawaii-gui/` for buttons/panels plus whimsical decor.
 - Effects:
-  - sparkles/stars (CSS/SVG)
+  - sugar sprinkles burst on correct bonks
   - score popup text bubble
 - UI:
   - buttons (Start, Settings, Pause, Resume)
@@ -28,9 +28,10 @@
 - Respect autoplay: initialize audio only after user interaction.
 
 ## Licensing Notes
-- Character sprites and GUI skins are user-provided local assets copied into `public/assets/original/`.
-- Avocado background is derived from user-provided local PDF via local thumbnail extraction.
+- Character sprite packs and GUI skins are user-provided local assets copied into `public/assets/original/`.
+- Active background image is user-provided and stored locally in repo.
 - Background source notes: `public/assets/original/backgrounds/SOURCES.md`.
+- Sprite source notes: `public/assets/original/sprite-sets/SOURCES.md`.
 - Runtime uses only local files; no external asset calls.
 - Audio is generated in-repo using Web Audio API.
 - Archived exploration assets (if retained) stay outside runtime paths and keep attribution notes.

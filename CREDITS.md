@@ -1,9 +1,10 @@
 # Credits
 
 ## Art + Audio
-- Active gameplay sweets sprites (user-provided local pack):
-  - `public/assets/original/kawaii-sweets/`
-  - Source notes: `public/assets/original/kawaii-sweets/SOURCES.md`
+- Active gameplay sprite packs (user-provided local images, in-repo sliced):
+  - `public/assets/original/sprite-sets/set_a/`
+  - `public/assets/original/sprite-sets/set_b/`
+  - Source notes: `public/assets/original/sprite-sets/SOURCES.md`
 - Active UI skin slices from user-provided GUI pack:
   - `public/assets/original/kawaii-gui/`
   - Source notes: `public/assets/original/kawaii-gui/SOURCES.md`
@@ -17,12 +18,14 @@
   - Source file: `/Users/danyel-ii/Downloads/Tooth-fairy-cartoon-on-transparent-background-PNG.png`
   - Runtime file: `public/assets/original/tooth-fairy/tooth_fairy.png`
   - Source notes: `public/assets/original/tooth-fairy/SOURCES.md`
-- Active avocado background extracted from user-provided PDF:
-  - Source file: `/Users/danyel-ii/Downloads/Green Kawaii Avocado Illustration Project Presentation  (1).pdf`
-  - Runtime file: `public/assets/original/backgrounds/kawaii-avocado-bg.png`
-- Background fallback image provided by project owner:
+- Active background image provided by project owner:
+  - Source file: `/Users/danyel-ii/Downloads/1344879.png`
+  - Runtime file: `public/assets/original/backgrounds/kawaii-food-bg-1344879.png`
+- Archived background alternatives retained in repo:
+  - `public/assets/original/backgrounds/kawaii-avocado-bg.png`
   - `public/assets/original/backgrounds/kawaii-summer.jpg`
-- Background extraction notes:
+  - `public/assets/original/backgrounds/kawaii-food-wallpaper.jpg`
+- Background source notes:
   - `public/assets/original/backgrounds/SOURCES.md`
 - Archived carnival board/backdrop assets remain in-repo but are not active theme surfaces:
   - `public/assets/original/carnival/`

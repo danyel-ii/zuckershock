@@ -4,7 +4,9 @@ import { mulberry32 } from "./prng.js";
 const FORBIDDEN_TRAVERSE_MS = 20_000;
 const FORBIDDEN_ACTIVATION_DELAY_MS = 1_200;
 const DEFAULT_VARIANT_COUNT = 4;
-const MAX_FORBIDDEN_WHACKS = 3;
+const MIN_FORBIDDEN_WHACKS = 3;
+const DEFAULT_FORBIDDEN_WHACKS = 3;
+const MAX_FORBIDDEN_WHACKS = 7;
 const LEVEL_DURATION_MS = 45_000;
 const MAX_LEVEL = 4;
 
@@ -28,8 +30,14 @@ function shuffleInPlace(arr, rnd) {
   }
 }
 
+function cleanMaxForbiddenWhacks(maxForbiddenWhacks) {
+  const n = Math.floor(Number(maxForbiddenWhacks));
+  if (!Number.isFinite(n)) return DEFAULT_FORBIDDEN_WHACKS;
+  return Math.max(MIN_FORBIDDEN_WHACKS, Math.min(MAX_FORBIDDEN_WHACKS, n));
+}
+
 export class GameCore {
-  constructor({ mode, profile, seed, durationMs, speed = "normal" }) {
+  constructor({ mode, profile, seed, durationMs, speed = "normal", maxForbiddenWhacks = DEFAULT_FORBIDDEN_WHACKS }) {
     this.mode = mode;
     this.profile = profile;
     this.speed = cleanSpeed(speed);
@@ -44,7 +52,7 @@ export class GameCore {
     this.score = 0;
     this.streak = 0;
     this.forbiddenWhacks = 0;
-    this.maxForbiddenWhacks = MAX_FORBIDDEN_WHACKS;
+    this.maxForbiddenWhacks = cleanMaxForbiddenWhacks(maxForbiddenWhacks);
     this.gameOverReason = null;
     this.level = 1;
 

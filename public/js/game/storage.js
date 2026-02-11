@@ -8,6 +8,8 @@ const DEFAULT_SETTINGS = {
   musicOn: false,
   reducedMotion: false,
   speed: "normal",
+  maxAttempts: 3,
+  spritePack: "set_a",
 };
 
 function cleanSpeed(speed) {
@@ -15,6 +17,17 @@ function cleanSpeed(speed) {
   if (speed === "langsam") return "normal";
   if (speed === "schnell") return "schwierig";
   return speed === "schwierig" || speed === "sehr_schwierig" ? speed : "normal";
+}
+
+function cleanSpritePack(spritePack) {
+  if (spritePack === "set_c") return "set_b";
+  return spritePack === "set_a" || spritePack === "set_b" ? spritePack : "set_a";
+}
+
+function cleanMaxAttempts(maxAttempts) {
+  const n = Math.floor(Number(maxAttempts));
+  if (!Number.isFinite(n)) return 3;
+  return Math.max(3, Math.min(7, n));
 }
 
 export function loadSettings() {
@@ -27,6 +40,8 @@ export function loadSettings() {
       musicOn: !!parsed.musicOn,
       reducedMotion: !!parsed.reducedMotion,
       speed: cleanSpeed(parsed.speed),
+      maxAttempts: cleanMaxAttempts(parsed.maxAttempts),
+      spritePack: cleanSpritePack(parsed.spritePack),
       __isDefault: false,
     };
   } catch {
@@ -40,6 +55,8 @@ export function saveSettings(settings) {
     musicOn: !!settings.musicOn,
     reducedMotion: !!settings.reducedMotion,
     speed: cleanSpeed(settings.speed),
+    maxAttempts: cleanMaxAttempts(settings.maxAttempts),
+    spritePack: cleanSpritePack(settings.spritePack),
   };
   localStorage.setItem(SETTINGS_KEY, JSON.stringify(clean));
 }

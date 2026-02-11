@@ -138,7 +138,7 @@ Relax mode notes:
 - **Decision:** Use fixed level length of 45 seconds and grant +1 attempt on every level transition.
 - **Behavior:**
   - 4 levels with 45s each (180s round)
-  - on level-up, one forbidden strike is forgiven (equivalent to +1 attempt), capped at 3 total attempts
+  - on level-up, one forbidden strike is forgiven (equivalent to +1 attempt), capped at the active attempt limit
 - **Why:**
   - makes progression cadence predictable and gives a kid-friendly recovery mechanic at each milestone.
 
@@ -169,3 +169,23 @@ Relax mode notes:
   - keeps art direction cohesive and editable without external dependencies
   - lightweight vectors scale cleanly across phones/tablets/desktops
 - **Status:** superseded by the kawaii food context update above.
+
+## 2026-02-11 — Configurable Attempt Budget (3-7)
+- **Decision:** Make forbidden-hit attempt budget configurable in settings from `3` to `7`.
+- **Behavior:**
+  - persisted setting key: `maxAttempts`
+  - each round starts with `maxAttempts` and ends on that forbidden-hit limit
+  - level-up forgiveness (`+1 Versuch`) remains and is now capped by the selected attempt budget
+  - floating tooth-fairy count mirrors remaining attempts (`maxAttempts - forbiddenWhacks`)
+- **Why:**
+  - supports different difficulty needs without changing core scoring rules
+  - keeps the life/attempt state visually legible for children via matching fairy count.
+
+## 2026-02-11 — Active Sprite Packs: A + B
+- **Decision:** Use only `Set A` and `Set B` as runtime-selectable gameplay packs.
+- **Behavior:**
+  - settings toggle exposes `Set A` and `Set B`
+  - previous `Set C` setting value is migrated to `Set B`
+  - service worker pre-cache includes only runtime-active sprite packs
+- **Why:**
+  - aligns with latest art selection while keeping pack switching simple for players.

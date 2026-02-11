@@ -6,13 +6,16 @@
   - A 2x-sized forbidden runner floats across the bottom lane for **20 seconds**.
   - While it is on-screen, matching sprites on the board are a penalty.
   - After it exits, a new forbidden sprite is chosen.
-- **Classic mode:** 60-second round.
-- **Relax mode:** same forbidden-runner mechanic, slower difficulty ramp, **120-second** round.
+- **Classic mode:** 4 levels, each **45 seconds** (total **180s**).
+- **Relax mode:** same duration (**4x45s**), but slower difficulty curve.
+- **Attempts:** configurable in settings (**3 to 7**). Each forbidden hit consumes one attempt.
+- **Level transition bonus:** +1 attempt is restored on level-up (capped by selected max attempts).
 
 ## Scoring
 - Critter bonk: **+100**
 - Bonus critter bonk (rare): **+250**
 - Forbidden match bonk: **-150** (points-only; no hearts in kid mode)
+- Round ends early when forbidden-hit limit is reached.
 
 Optional streak (v1 implementation may omit):
 - consecutive critter hits increase score slightly (capped)

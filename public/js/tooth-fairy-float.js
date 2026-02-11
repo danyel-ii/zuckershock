@@ -1,15 +1,46 @@
+const MIN_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 7;
+
 function makeFairies() {
   const sizeScale = 1.95;
-  return [
-    { fallbackY: 0.23, boardY: 0.2, sideNudge: 0, size: Math.round(92 * sizeScale), amp: 16, speed: 0.72, drift: 11, phase: 0.4 },
-    { fallbackY: 0.17, boardY: 0.5, sideNudge: 8, size: Math.round(104 * sizeScale), amp: 20, speed: 0.63, drift: 14, phase: 1.7 },
-    { fallbackY: 0.26, boardY: 0.78, sideNudge: -6, size: Math.round(88 * sizeScale), amp: 14, speed: 0.78, drift: 10, phase: 3.1 },
-  ];
+  const baseSizes = [92, 104, 88, 96, 90, 100, 86];
+  const out = [];
+
+  for (let i = 0; i < MAX_ATTEMPTS; i++) {
+    const t = i / (MAX_ATTEMPTS - 1);
+    const sideSign = i % 2 === 0 ? -1 : 1;
+    out.push({
+      fallbackY: 0.14 + t * 0.72,
+      boardY: 0.1 + t * 0.8,
+      sideNudge: sideSign * (6 + (i % 3) * 4),
+      baseSize: Math.round(baseSizes[i] * sizeScale),
+      amp: 12 + (i % 3) * 4,
+      speed: 0.58 + i * 0.05,
+      drift: 7 + (i % 4) * 2,
+      phase: 0.45 + i * 0.9,
+    });
+  }
+
+  return out;
 }
 
-function clampCount(value, max) {
+function clampAttemptCapacity(value) {
+  const n = Math.floor(Number(value));
+  if (!Number.isFinite(n)) return MIN_ATTEMPTS;
+  return Math.max(MIN_ATTEMPTS, Math.min(MAX_ATTEMPTS, n));
+}
+
+function clampVisibleCount(value, max) {
   const n = Number.isFinite(value) ? Math.floor(value) : max;
   return Math.max(0, Math.min(max, n));
+}
+
+function getCountScale(maxCount) {
+  if (maxCount >= 7) return 0.68;
+  if (maxCount === 6) return 0.74;
+  if (maxCount === 5) return 0.82;
+  if (maxCount === 4) return 0.9;
+  return 1;
 }
 
 export function initToothFairyFloats() {
@@ -39,7 +70,7 @@ export function initToothFairyFloats() {
   const boardWrapEl = document.querySelector(".board-wrap");
   const readReducedMotion = () => appEl?.getAttribute("data-reduced-motion") === "true";
   const fairies = makeFairies();
-  const state = { visibleCount: fairies.length };
+  const state = { maxCount: MIN_ATTEMPTS, visibleCount: MIN_ATTEMPTS };
 
   let fairyImg = null;
 
@@ -78,19 +109,21 @@ export function initToothFairyFloats() {
         boardWrapEl instanceof HTMLElement && boardWrapEl.getBoundingClientRect().width > 0
           ? boardWrapEl.getBoundingClientRect()
           : null;
+      const sizeScale = getCountScale(state.maxCount);
 
       for (let i = 0; i < state.visibleCount; i++) {
         const f = fairies[i];
+        const size = Math.max(52, Math.round(f.baseSize * sizeScale));
         const drift = reduced ? 0 : Math.sin(t * 0.33 + f.phase) * f.drift;
         const bob = reduced ? 0 : Math.sin(t * f.speed + f.phase) * f.amp;
         const roll = reduced ? 0 : Math.sin(t * (0.8 + i * 0.1) + f.phase) * 0.08;
 
-        const minX = f.size * 0.5 + 8;
-        const maxX = p.width - f.size * 0.5 - 8;
-        const minY = f.size * 0.5 + 8;
-        const maxY = p.height - f.size * 0.5 - 8;
+        const minX = size * 0.5 + 8;
+        const maxX = p.width - size * 0.5 - 8;
+        const minY = size * 0.5 + 8;
+        const maxY = p.height - size * 0.5 - 8;
         const rightGap = Math.max(12, Math.min(52, Math.round(p.width * 0.03)));
-        const anchorX = boardRect ? boardRect.right + rightGap + f.size * 0.5 + f.sideNudge : p.width * 0.88 + f.sideNudge;
+        const anchorX = boardRect ? boardRect.right + rightGap + size * 0.5 + f.sideNudge : p.width * 0.88 + f.sideNudge;
         const anchorY = boardRect ? boardRect.top + boardRect.height * f.boardY : p.height * f.fallbackY;
         const x = p.constrain(anchorX + drift, minX, maxX);
         const y = p.constrain(anchorY + bob, minY, maxY);
@@ -100,7 +133,7 @@ export function initToothFairyFloats() {
         p.rotate(roll);
         // Keep original PNG alpha; do not fade the sprite globally.
         p.noTint();
-        p.image(fairyImg, 0, 0, f.size, f.size);
+        p.image(fairyImg, 0, 0, size, size);
         p.pop();
       }
     };
@@ -110,11 +143,15 @@ export function initToothFairyFloats() {
   new window.p5(sketch);
 
   return {
+    setAttemptCapacity(attempts) {
+      state.maxCount = clampAttemptCapacity(attempts);
+      state.visibleCount = Math.min(state.visibleCount, state.maxCount);
+    },
     setVisibleCount(count) {
-      state.visibleCount = clampCount(count, fairies.length);
+      state.visibleCount = clampVisibleCount(count, state.maxCount);
     },
     reset() {
-      state.visibleCount = fairies.length;
+      state.visibleCount = state.maxCount;
     },
     getVisibleCount() {
       return state.visibleCount;

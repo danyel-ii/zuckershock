@@ -39,8 +39,9 @@ pre-caches those module URLs too.
 - We can swap control chrome from a new asset pack without touching hit logic, spawn logic, or sprite fairness.
 
 ## Visual Lives Work Better Than Extra Text
-- Using the three floating fairies as strike indicators made forbidden-hit state understandable at a glance.
-- A small controller API (`setVisibleCount`, `reset`) kept this decorative layer easy to sync with game state.
+- Using floating fairies as strike indicators made forbidden-hit state understandable at a glance.
+- Making the fairy budget configurable (`3..7`) worked well when the overlay API exposed both
+  attempt-capacity and visible-count controls.
 
 ## Speed Should Be A Profile, Not A Magic Number
 - We implemented speed as named profiles (`normal`, `schwierig`, `sehr_schwierig`) and applied them in one place.

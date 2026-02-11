@@ -11,7 +11,7 @@ import { createBoard } from "./game/board.js";
 import { GameCore } from "./game/game-core.js";
 import { seedFromNow } from "./game/prng.js";
 import { formatSecondsCeil } from "./game/utils.js";
-import { critterSvg } from "./game/art.js";
+import { critterSvg, getSpriteVariantCount, setSpritePackId } from "./game/art.js";
 import { initToothFairyFloats } from "./tooth-fairy-float.js";
 
 const $ = (sel) => document.querySelector(sel);
@@ -62,8 +62,16 @@ const resumeBtn = $("#resumeBtn");
 
 const modeButtons = Array.from(document.querySelectorAll("[data-mode]"));
 const speedButtons = Array.from(document.querySelectorAll("[data-speed]"));
+const attemptButtons = Array.from(document.querySelectorAll("[data-max-attempts]"));
+const spritePackButtons = Array.from(document.querySelectorAll("[data-sprite-pack]"));
 const ROUND_LEVELS = 4;
 const LEVEL_DURATION_MS = 45_000;
+
+function cleanMaxAttempts(value) {
+  const n = Math.floor(Number(value));
+  if (!Number.isFinite(n)) return 3;
+  return Math.max(3, Math.min(7, n));
+}
 
 function showScreen(key) {
   for (const [k, el] of Object.entries(screens)) {
@@ -101,6 +109,9 @@ let lastEnteredName = "";
 let roundSaved = false;
 let pendingRoundResult = null;
 
+settings.spritePack = setSpritePackId(settings.spritePack);
+settings.maxAttempts = cleanMaxAttempts(settings.maxAttempts);
+
 const audio = new AudioManager({ soundOn: settings.soundOn, musicOn: settings.musicOn });
 const fairyController = initToothFairyFloats();
 
@@ -126,13 +137,22 @@ function computeBoardProfile() {
   const maxHoles = small ? 6 : 9;
   const startHoles = small ? 4 : 5;
   const simCap = small ? 2 : 3;
-  const variantCount = 4;
+  const variantCount = Math.max(1, getSpriteVariantCount());
 
   return { cols, maxHoles, startHoles, simCap, variantCount };
 }
 
 function formatModeName(modeName) {
   return modeName === "relax" ? "Entspannt" : "Klassik";
+}
+
+function updateFairyAttempts(stateLike = null) {
+  const maxAttempts = cleanMaxAttempts(stateLike?.maxForbiddenWhacks ?? settings.maxAttempts);
+  const forbiddenWhacksRaw = Number(stateLike?.forbiddenWhacks ?? 0);
+  const forbiddenWhacks = Number.isFinite(forbiddenWhacksRaw) ? Math.max(0, Math.floor(forbiddenWhacksRaw)) : 0;
+  const attemptsLeft = Math.max(0, maxAttempts - forbiddenWhacks);
+  fairyController?.setAttemptCapacity?.(maxAttempts);
+  fairyController?.setVisibleCount?.(attemptsLeft);
 }
 
 function renderLeaderboardList(root, entries, limit) {
@@ -239,6 +259,20 @@ function syncUI() {
     btn.setAttribute("aria-pressed", is ? "true" : "false");
   }
 
+  for (const btn of attemptButtons) {
+    const is = Number(btn.getAttribute("data-max-attempts")) === cleanMaxAttempts(settings.maxAttempts);
+    btn.setAttribute("aria-pressed", is ? "true" : "false");
+  }
+
+  for (const btn of spritePackButtons) {
+    const is = btn.getAttribute("data-sprite-pack") === settings.spritePack;
+    btn.setAttribute("aria-pressed", is ? "true" : "false");
+  }
+
+  if (!core && forbiddenHitsValue) {
+    forbiddenHitsValue.textContent = `0 / ${cleanMaxAttempts(settings.maxAttempts)}`;
+  }
+  updateFairyAttempts(core?.getView?.() ?? null);
   renderLeaderboards();
 }
 
@@ -256,6 +290,33 @@ for (const btn of speedButtons) {
     settings.speed = speed;
     saveSettings(settings);
     syncUI();
+  });
+}
+
+for (const btn of attemptButtons) {
+  btn.addEventListener("click", () => {
+    const maxAttempts = Number(btn.getAttribute("data-max-attempts"));
+    if (!Number.isInteger(maxAttempts) || maxAttempts < 3 || maxAttempts > 7) return;
+    settings.maxAttempts = maxAttempts;
+    saveSettings(settings);
+    syncUI();
+    if (core) render();
+  });
+}
+
+for (const btn of spritePackButtons) {
+  btn.addEventListener("click", () => {
+    const spritePack = btn.getAttribute("data-sprite-pack");
+    if (spritePack !== "set_a" && spritePack !== "set_b") return;
+    settings.spritePack = setSpritePackId(spritePack);
+    saveSettings(settings);
+    syncUI();
+    if (core && board) {
+      core.variantCount = Math.max(1, getSpriteVariantCount());
+      const view = core.getView();
+      board.renderHoles(view.holes);
+      renderForbiddenRunner(view);
+    }
   });
 }
 
@@ -427,9 +488,10 @@ function startLevelBreak(nextLevel) {
   if (levelBreakTitle) levelBreakTitle.textContent = `Stufe ${nextLevel}`;
   if (levelBreakCount) levelBreakCount.textContent = "3";
   if (levelBreakInfo) {
+    const maxAttempts = core.getView().maxForbiddenWhacks ?? cleanMaxAttempts(settings.maxAttempts);
     levelBreakInfo.textContent = attemptGrant?.gained
       ? "Super! +1 Versuch"
-      : "Versuche bleiben bei 3";
+      : `Versuche bleiben bei ${maxAttempts}`;
   }
   if (levelBreak) levelBreak.hidden = false;
 
@@ -566,7 +628,14 @@ function startRound() {
 
   const durationMs = LEVEL_DURATION_MS * ROUND_LEVELS;
   const seed = seedFromNow();
-  core = new GameCore({ mode, profile, seed, durationMs, speed: settings.speed });
+  core = new GameCore({
+    mode,
+    profile,
+    seed,
+    durationMs,
+    speed: settings.speed,
+    maxForbiddenWhacks: cleanMaxAttempts(settings.maxAttempts),
+  });
   lastForbiddenKey = "";
   lastForbiddenWasActive = false;
   seenLevel = 1;
@@ -581,7 +650,7 @@ function startRound() {
 
   const now = performance.now();
   core.start(now);
-  fairyController?.reset?.();
+  updateFairyAttempts(core.getView());
 
   if (settings.musicOn) audio.startMusic();
   else audio.stopMusic();
@@ -597,8 +666,7 @@ function startRound() {
 function render() {
   if (!core || !board) return;
   const view = core.getView();
-  const fairiesLeft = Math.max(0, (view.maxForbiddenWhacks ?? 3) - (view.forbiddenWhacks ?? 0));
-  fairyController?.setVisibleCount?.(fairiesLeft);
+  updateFairyAttempts(view);
 
   scoreValue.textContent = String(view.score);
   timeValue.textContent = formatSecondsCeil(view.timeLeftMs);
@@ -705,10 +773,10 @@ function handleBonk(i) {
     board.effects.popScore(i, String(res.delta), "bad");
     board.effects.bonkAnim(i, settings.reducedMotion);
     board.effects.boardShudder(settings.reducedMotion);
-    const fairiesLeft = Math.max(0, (res.maxForbiddenWhacks ?? 3) - (res.forbiddenWhacks ?? 0));
-    fairyController?.setVisibleCount?.(fairiesLeft);
-    const strikesLeft = Math.max(0, (res.maxForbiddenWhacks ?? 3) - (res.forbiddenWhacks ?? 0));
-    if (res.strikeOut) announce("Drei verbotene Treffer. Runde beendet!");
+    updateFairyAttempts(res);
+    const maxAttempts = cleanMaxAttempts(res.maxForbiddenWhacks ?? settings.maxAttempts);
+    const strikesLeft = Math.max(0, maxAttempts - (res.forbiddenWhacks ?? 0));
+    if (res.strikeOut) announce(`${maxAttempts} verbotene Treffer. Runde beendet!`);
     else announce(`Verbotene Leckerei! Noch ${strikesLeft} Versuche.`);
     return;
   }
@@ -741,6 +809,7 @@ function onGameOver() {
   const view = core.getView();
   const score = view.score;
   const reason = view.gameOverReason || "time_up";
+  const maxAttempts = cleanMaxAttempts(view.maxForbiddenWhacks ?? settings.maxAttempts);
   finalScoreValue.textContent = String(score);
   pendingRoundResult = { score, mode: view.mode, reason };
   roundSaved = false;
@@ -752,7 +821,7 @@ function onGameOver() {
 
   if (reason === "forbidden_limit") {
     gameoverHeading.textContent = "Zu viele verbotene Treffer!";
-    gameoverReason.textContent = "Du hast 3 verbotene Treffer erreicht. Die Runde endete vorzeitig.";
+    gameoverReason.textContent = `Du hast ${maxAttempts} verbotene Treffer erreicht. Die Runde endete vorzeitig.`;
   } else {
     gameoverHeading.textContent = "Runde vorbei!";
     gameoverReason.textContent = "Die Zeit ist um. Trag deinen Namen in die Bestenliste ein.";
@@ -774,9 +843,9 @@ function endRoundToTitle() {
   stopLoop();
   hideLevelBreak();
   renderForbiddenRunner(null);
-  fairyController?.reset?.();
   pendingRoundResult = null;
   core = null;
+  updateFairyAttempts(null);
   showScreen("title");
 }
 

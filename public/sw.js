@@ -1,5 +1,5 @@
 // Minimal offline cache: pre-cache app shell; runtime-cache same-origin GET requests.
-const CACHE_NAME = "wam-cache-v41";
+const CACHE_NAME = "wam-cache-v46";
 const SHELL = [
   "./",
   "./index.html",
@@ -16,10 +16,15 @@ const SHELL = [
   "./js/game/utils.js",
   "./js/game/art.js",
   "./vendor/p5/p5.min.js",
-  "./assets/original/kawaii-sweets/1.png",
-  "./assets/original/kawaii-sweets/2.png",
-  "./assets/original/kawaii-sweets/3.png",
-  "./assets/original/kawaii-sweets/4.png",
+  "./assets/original/sprite-sets/set_a/1.png",
+  "./assets/original/sprite-sets/set_a/2.png",
+  "./assets/original/sprite-sets/set_a/3.png",
+  "./assets/original/sprite-sets/set_b/1.png",
+  "./assets/original/sprite-sets/set_b/2.png",
+  "./assets/original/sprite-sets/set_b/3.png",
+  "./assets/original/sprite-sets/set_b/4.png",
+  "./assets/original/sprite-sets/set_b/5.png",
+  "./assets/original/sprite-sets/set_b/6.png",
   "./assets/original/tooth-fairy/tooth_fairy.png",
   "./assets/original/kawaii-gui/button-orange-wide.png",
   "./assets/original/kawaii-gui/panel-blue-tight.png",
@@ -34,9 +39,6 @@ const SHELL = [
   "./assets/original/post-ui/pieces-bar-2.png",
   "./assets/original/post-ui/background-green.png",
   "./assets/original/fonts/MGF-PinlockPersonalUse.otf",
-  "./assets/original/backgrounds/kawaii-avocado-bg.png",
-  "./assets/original/backgrounds/kawaii-summer.jpg",
-  "./assets/original/backgrounds/kawaii-food-wallpaper.jpg",
   "./assets/original/backgrounds/kawaii-food-bg-1344879.png",
 ];
 

@@ -68,22 +68,24 @@ test("level 3 spawns three sprites with two forbidden and one allowed", () => {
   assert.equal(forbiddenCount, 2);
 });
 
-test("level change grants one attempt back, capped at max 3", () => {
+test("level change grants one attempt back, capped at configured max attempts", () => {
   const profile = { cols: 3, startHoles: 5, maxHoles: 9, simCap: 3, variantCount: 4 };
-  const core = new GameCore({ mode: "classic", profile, seed: 119, durationMs: 180_000 });
+  const core = new GameCore({ mode: "classic", profile, seed: 119, durationMs: 180_000, maxForbiddenWhacks: 5 });
   core.start(0);
 
-  core.forbiddenWhacks = 2;
+  core.forbiddenWhacks = 4;
   const gained = core.grantLevelAttempt();
   assert.equal(gained.gained, true);
-  assert.equal(gained.forbiddenWhacks, 1);
+  assert.equal(gained.forbiddenWhacks, 3);
+  assert.equal(gained.maxForbiddenWhacks, 5);
   assert.equal(gained.attemptsLeft, 2);
 
   core.forbiddenWhacks = 0;
   const capped = core.grantLevelAttempt();
   assert.equal(capped.gained, false);
   assert.equal(capped.forbiddenWhacks, 0);
-  assert.equal(capped.attemptsLeft, 3);
+  assert.equal(capped.maxForbiddenWhacks, 5);
+  assert.equal(capped.attemptsLeft, 5);
 });
 
 test("level 4 pair rule marks both sprites forbidden when one matches", () => {
@@ -214,6 +216,42 @@ test("three forbidden whacks ends the round immediately", () => {
       assert.equal(view.gameOverReason, "forbidden_limit");
       assert.equal(view.forbiddenWhacks, 3);
       assert.ok(view.holes.every((h) => h === null), "holes should clear on strike-out");
+    }
+  }
+});
+
+test("configured max forbidden whacks (7) ends the round on the seventh forbidden hit", () => {
+  const profile = { cols: 3, startHoles: 4, maxHoles: 6, simCap: 2, variantCount: 4 };
+  const core = new GameCore({ mode: "classic", profile, seed: 99, durationMs: 30_000, maxForbiddenWhacks: 7 });
+  core.start(0);
+  core.tick(1_500);
+
+  const forbidden = core.getView().forbidden;
+  assert.ok(forbidden, "forbidden state should exist");
+  assert.equal(core.getView().maxForbiddenWhacks, 7);
+
+  for (let attempt = 1; attempt <= 7; attempt++) {
+    core.holes[0] = {
+      kind: "critter",
+      variant: forbidden.variant,
+      spawnedAtMs: 0,
+      hideAtMs: 10_000,
+    };
+
+    const res = core.bonk(0, 200 + attempt);
+    assert.equal(res.result, "forbidden");
+    assert.equal(res.maxForbiddenWhacks, 7);
+    assert.equal(res.forbiddenWhacks, attempt);
+
+    if (attempt < 7) {
+      assert.equal(res.strikeOut, false);
+      assert.equal(core.getView().phase, "running");
+    } else {
+      assert.equal(res.strikeOut, true);
+      const view = core.getView();
+      assert.equal(view.phase, "over");
+      assert.equal(view.gameOverReason, "forbidden_limit");
+      assert.equal(view.forbiddenWhacks, 7);
     }
   }
 });

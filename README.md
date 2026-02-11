@@ -44,8 +44,10 @@ npm test
   - Same-source potato pack inventory: `public/assets/opengameart/kawaii-food/THESOFTMACHINE-FOOD-INVENTORY.md`
 
 ## User-Provided Kawaii Packs (Integrated)
-- Gameplay sweets sprites:
-  - `public/assets/original/kawaii-sweets/`
+- Gameplay sprite sets (switchable in settings):
+  - `public/assets/original/sprite-sets/set_a/` (3 figures)
+  - `public/assets/original/sprite-sets/set_b/` (6 figures)
+  - source notes: `public/assets/original/sprite-sets/SOURCES.md`
 - UI skin sheets + derived slices:
   - `public/assets/original/kawaii-gui/`
 
@@ -56,8 +58,8 @@ Classic mode (4 Stufen, je 45s = 180s) ramps:
 - max simultaneous targets: 1 -> 2/3 (depends on screen size)
 - forbidden runner: 1 active sprite variant at a time, rotates every 20s
 - forbidden bonk penalty: -150 for matching sprites while active
-- forbidden strike-out: round ends immediately after 3 forbidden whacks
-- on each level transition: +1 attempt is granted back (capped at 3 total)
+- forbidden strike-out: round ends when the selected attempt limit is reached (`3` to `7`)
+- on each level transition: +1 attempt is granted back (capped at selected max attempts)
 - local leaderboard: save your score with a name on game-over (top 10, local-only)
 - level turn rules:
   - Level 1: 1 sprite per turn, random forbidden matches
@@ -71,6 +73,8 @@ Classic mode (4 Stufen, je 45s = 180s) ramps:
 - Enter/Space bonks the focused hole
 - Settings has **Reduced motion** toggle
 - Settings has 3 speed levels: **Normal / Schwierig / Sehr schwierig**
+- Settings has selectable attempts: **3 / 4 / 5 / 6 / 7**
+- Settings has 2 sprite sets: **Set A / Set B**
 
 ## Privacy
 Local-only storage:

@@ -951,3 +951,110 @@
   - Start a game and verify all three fairies stay on the board’s right side while bobbing.
   - Verify no fairy is rendered on the left side anymore.
   - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Drei Neue Sprite-Sets + Settings-Toggle)
+- What changed:
+  - Created new gameplay sprite sheets by slicing user-provided source PNGs into individual sprites:
+    - `public/assets/original/sprite-sets/set_a/` (3 sprites)
+    - `public/assets/original/sprite-sets/set_b/` (6 sprites)
+    - `public/assets/original/sprite-sets/set_c/` (5 sprites)
+  - Replaced fixed gameplay sweets sprite source with switchable sprite packs in `public/js/game/art.js`.
+  - Added settings persistence for selected sprite pack in `public/js/game/storage.js` (`spritePack`).
+  - Added a new settings toggle group (`Figuren-Set`) in `public/index.html` with:
+    - `Set A`, `Set B`, `Set C`
+  - Wired toggle behavior in `public/js/app.js`:
+    - updates active sprite pack immediately
+    - saves selection to local storage
+    - re-renders board + forbidden runner using selected set
+    - updates active variant count for ongoing rounds
+  - Added style support for the new segmented control (`.segmented--packs`) in `public/styles.css`.
+  - Added all new sprite files to service-worker pre-cache and bumped cache to `wam-cache-v42`.
+- Why:
+  - You requested creating sprites from all three provided images and making the three sets selectable via settings.
+- How to test:
+  - Open settings and switch `Figuren-Set` between `Set A`, `Set B`, and `Set C`.
+  - Verify board sprites and forbidden-runner sprite switch to the selected set.
+  - Reload page and confirm selected set persists.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Nur Noch Set A + Set C, Landing-Icons = Set A)
+- What changed:
+  - Removed `Set B` from active gameplay sprite packs and settings toggle.
+  - Updated sprite-pack logic and defaults:
+    - `public/js/game/art.js`: packs now only `set_a` and `set_c` (default `set_a`)
+    - `public/js/game/storage.js`: migrated old `set_b` setting to `set_a`
+    - `public/js/app.js`: sprite-pack validation now only accepts `set_a`/`set_c`
+    - `public/index.html`: settings toggle now shows only `Set A` and `Set C`
+  - Removed `set_b` sprite files from `public/assets/original/sprite-sets/`.
+  - Updated landing-page icons to use `Set A` sprites in `public/styles.css`:
+    - title icon
+    - start button icon
+    - settings button icon
+  - Updated service-worker pre-cache list and bumped cache to `wam-cache-v43`.
+- Why:
+  - You requested to keep only sets A and C and to use set A sprites as landing-page icons.
+- How to test:
+  - Open settings and confirm only `Set A` / `Set C` are available.
+  - Toggle between both sets and verify board + forbidden runner sprites update.
+  - Confirm landing title/button icons now come from `Set A`.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Versuche Einstellbar 3-7 + Fairies = Verbleibende Versuche)
+- What changed:
+  - Added new settings control `Versuche` (`3`, `4`, `5`, `6`, `7`) in `public/index.html`.
+  - Persisted new setting `maxAttempts` in `public/js/game/storage.js` with range-cleaning (`3..7`).
+  - Updated `GameCore` in `public/js/game/game-core.js`:
+    - constructor now accepts `maxForbiddenWhacks`
+    - strike-out limit uses selected attempts instead of fixed `3`
+  - Updated app wiring in `public/js/app.js`:
+    - passes selected attempts into each new round
+    - level-break copy now uses dynamic max attempts
+    - forbidden strike-out/game-over messages now use dynamic limits
+  - Updated floating-tooth-fairy controller in `public/js/tooth-fairy-float.js`:
+    - supports up to `7` visible fairies
+    - scales fairy size by configured attempt capacity
+    - fairy count always matches remaining attempts
+  - Added/updated tests in `tests/game-core.test.js` for configurable attempt caps (`5` + `7` cases).
+- Why:
+  - You requested selecting attempt count from `3` to `7` and making floating objects represent remaining attempts.
+- How to test:
+  - Open settings and choose `Versuche = 7`.
+  - Start a round and verify `Verboten-Treffer` displays `0 / 7` and seven fairies are visible.
+  - Trigger forbidden hits and verify both HUD and fairy count decrement together.
+  - Repeat with `Versuche = 3` and verify strike-out at the third forbidden hit.
+
+## 2026-02-11 (Sprite-Sets Zurueck Auf A + B)
+- What changed:
+  - Reintroduced `set_b` sprite assets from the original 6-character source image:
+    - `public/assets/original/sprite-sets/set_b/1.png` ... `6.png`
+  - Switched runtime sprite packs from `A + C` to `A + B`:
+    - `public/js/game/art.js` now exposes `set_a` and `set_b`
+    - `public/index.html` settings toggle now shows `Set A` + `Set B`
+    - `public/js/app.js` sprite-pack validation now accepts `set_a` / `set_b`
+    - `public/js/game/storage.js` migrates old `set_c` selections to `set_b`
+  - Updated offline cache list and bumped SW cache to `wam-cache-v45` in `public/sw.js`.
+- Why:
+  - You requested to undo `A + C` and keep `A + B` instead.
+- How to test:
+  - Open settings and confirm only `Set A` and `Set B` are shown.
+  - Toggle between both sets and verify board + forbidden runner switch sprites.
+  - Hard reload once so latest SW cache is active.
+
+## 2026-02-11 (Repo Cleanup + Dokumente Synchronisiert)
+- What changed:
+  - Updated core documentation to match current runtime state:
+    - `CREDITS.md`
+    - `docs/game-spec.md`
+    - `docs/assets-plan.md`
+    - `public/assets/original/backgrounds/SOURCES.md`
+  - Added sprite provenance doc:
+    - `public/assets/original/sprite-sets/SOURCES.md`
+  - Added decision-log note for active sprite-pack policy (`A + B`).
+  - Removed obsolete runtime sprite folder `set_c` from `public/assets/original/sprite-sets/`.
+  - Trimmed service-worker pre-cache to runtime-active visual assets and bumped cache to `wam-cache-v46`.
+- Why:
+  - You requested repo cleanup and document updates before commit/push.
+- How to test:
+  - Verify settings still list only `Set A` and `Set B`.
+  - Verify game still runs and sprite switching works.
+  - Run `npm test` and `npm run build`.

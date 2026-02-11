@@ -1,13 +1,14 @@
 # Background Sources
 
-## Active Background (Kawaii Food Theme)
+## Active Runtime Background
 - Source file provided by user:
-  - `/Users/danyel-ii/Downloads/Green Kawaii Avocado Illustration Project Presentation  (1).pdf`
-- Extracted via local Quick Look thumbnail tool:
-  - `qlmanage -t -s 2200 -o public/assets/original/backgrounds <pdf>`
+  - `/Users/danyel-ii/Downloads/1344879.png`
 - Runtime file:
-  - `kawaii-avocado-bg.png`
+  - `kawaii-food-bg-1344879.png`
 
-## Fallback Background
-- User-provided image:
-  - `kawaii-summer.jpg`
+## Archived Alternatives (Retained in Repo)
+- `kawaii-avocado-bg.png`
+  - Source: `/Users/danyel-ii/Downloads/Green Kawaii Avocado Illustration Project Presentation  (1).pdf`
+  - Extraction method: `qlmanage -t -s 2200 -o public/assets/original/backgrounds <pdf>`
+- `kawaii-summer.jpg`
+- `kawaii-food-wallpaper.jpg`
