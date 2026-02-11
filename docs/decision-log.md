@@ -201,3 +201,22 @@ Relax mode notes:
   - enables cross-device persistence while preserving offline play
   - keeps networking first-party and avoids third-party browser calls
   - protects gameplay UX by degrading gracefully to local storage when offline
+
+## 2026-02-11 — Score Handling On Forbidden Strike-Out
+- **Decision:** Track both net score and collected positive score in game core.
+- **Behavior:**
+  - `score`: live gameplay score with forbidden penalties
+  - `collectedScore`: sum of positive bonk points only
+  - on `forbidden_limit` game-over, end-screen/leaderboard use `max(score, collectedScore)`
+- **Why:**
+  - keeps penalty feedback during gameplay
+  - ensures earned points are still credited even when a round ends early from forbidden hits
+
+## 2026-02-11 — Speed Tier Remap
+- **Decision:** Remap speed tiers to shift difficulty up one notch.
+- **Behavior:**
+  - `normal` is now slower than before
+  - `schwierig` now matches previous `normal`
+  - `sehr_schwierig` now matches previous `schwierig`
+- **Why:**
+  - aligns pacing with user feedback that the easiest tier should be gentler

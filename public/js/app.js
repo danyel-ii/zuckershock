@@ -907,8 +907,10 @@ function onGameOver() {
   hideLevelBreak();
 
   const view = core.getView();
-  const score = view.score;
   const reason = view.gameOverReason || "time_up";
+  const scoreNet = Math.max(0, Math.floor(Number(view.score) || 0));
+  const scoreCollected = Math.max(0, Math.floor(Number(view.collectedScore) || 0));
+  const score = reason === "forbidden_limit" ? Math.max(scoreNet, scoreCollected) : scoreNet;
   const maxAttempts = cleanMaxAttempts(view.maxForbiddenWhacks ?? settings.maxAttempts);
   finalScoreValue.textContent = String(score);
   pendingRoundResult = { score, mode: view.mode, reason };
@@ -922,7 +924,7 @@ function onGameOver() {
 
   if (reason === "forbidden_limit") {
     gameoverHeading.textContent = "Zu viele verbotene Treffer!";
-    gameoverReason.textContent = `Du hast ${maxAttempts} verbotene Treffer erreicht. Die Runde endete vorzeitig.`;
+    gameoverReason.textContent = `Du hast ${maxAttempts} verbotene Treffer erreicht. Die Runde endete vorzeitig, gesammelte Punkte werden gewertet.`;
   } else {
     gameoverHeading.textContent = "Runde vorbei!";
     gameoverReason.textContent = "Die Zeit ist um. Trag deinen Namen in die Bestenliste ein.";

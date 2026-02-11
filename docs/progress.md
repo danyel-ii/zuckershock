@@ -1132,3 +1132,23 @@
   - Set `DATABASE_URL` in Vercel and deploy.
   - Open app in two devices/browsers, save a score on one, verify it appears on the other.
   - Stop API access (or run static local dev) and verify leaderboard still works locally.
+
+## 2026-02-11 (Strike-Out Punkte + Geschwindigkeit Neu Gestaffelt)
+- What changed:
+  - Added `collectedScore` to `GameCore` to track only positive bonk points.
+  - On game over due to `forbidden_limit`, the score used for end screen and leaderboard is now:
+    - `max(netScore, collectedScore)`
+  - Remapped speed profiles in `difficulty.js`:
+    - `normal` slowed down
+    - `schwierig` now equals previous `normal`
+    - `sehr_schwierig` now equals previous `schwierig`
+  - Updated automated tests to match the new timing/score behavior.
+- Why:
+  - You reported that after too many forbidden hits, collected points could effectively vanish from leaderboard results.
+  - You requested a slower easiest speed tier and a one-step shift for the other tiers.
+- How to test:
+  - Score points, then trigger forbidden strike-out: game-over score and saved leaderboard entry should keep collected points.
+  - Compare speed tiers in settings:
+    - `Normal` feels slower than before
+    - `Schwierig` feels like old `Normal`
+    - `Sehr schwierig` feels like old `Schwierig`

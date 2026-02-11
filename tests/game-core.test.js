@@ -142,7 +142,7 @@ test("forbidden variant rotates every 20 seconds", () => {
   const v1 = core.getView().forbidden?.variant;
   assert.ok(Number.isInteger(v1), "forbidden variant should exist at start");
 
-  core.tick(20_050);
+  core.tick(22_500);
   const v2 = core.getView().forbidden?.variant;
   assert.ok(Number.isInteger(v2), "forbidden variant should exist after rotation");
   assert.notEqual(v2, v1, "forbidden variant should rotate to a new sprite");
@@ -155,7 +155,7 @@ test("speed 'sehr_schwierig' rotates forbidden runner sooner than normal", () =>
   const firstVariant = fast.getView().forbidden?.variant;
   assert.ok(Number.isInteger(firstVariant), "forbidden variant should exist at start");
 
-  fast.tick(17_000);
+  fast.tick(18_100);
   const secondVariant = fast.getView().forbidden?.variant;
   assert.ok(Number.isInteger(secondVariant), "forbidden variant should exist after fast traversal");
   assert.notEqual(secondVariant, firstVariant, "fast speed should rotate before 20 seconds");
@@ -286,4 +286,43 @@ test("forbidden sprite is visible before forbidden penalty becomes active", () =
   };
   const lateRes = core.bonk(0, 1_600);
   assert.equal(lateRes.result, "forbidden", "matching after activation should penalize");
+});
+
+test("strike-out keeps collected points available for end-of-round scoring", () => {
+  const profile = { cols: 3, startHoles: 4, maxHoles: 6, simCap: 2, variantCount: 4 };
+  const core = new GameCore({ mode: "classic", profile, seed: 144, durationMs: 30_000, maxForbiddenWhacks: 3 });
+  core.start(0);
+  core.tick(1_500);
+
+  const forbidden = core.getView().forbidden;
+  assert.ok(forbidden, "forbidden state should exist");
+  assert.equal(forbidden.isActive, true, "forbidden state should be active");
+
+  // Collect one positive hit first.
+  core.holes[0] = {
+    kind: "critter",
+    variant: (forbidden.variant + 1) % profile.variantCount,
+    spawnedAtMs: 0,
+    hideAtMs: 10_000,
+  };
+  const hit = core.bonk(0, 1_600);
+  assert.equal(hit.result, "hit");
+  assert.equal(core.getView().collectedScore, 100);
+
+  // Then trigger strike-out via forbidden hits.
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    core.holes[0] = {
+      kind: "critter",
+      variant: forbidden.variant,
+      spawnedAtMs: 0,
+      hideAtMs: 10_000,
+    };
+    core.bonk(0, 1_700 + attempt);
+  }
+
+  const view = core.getView();
+  assert.equal(view.phase, "over");
+  assert.equal(view.gameOverReason, "forbidden_limit");
+  assert.equal(view.score, 0, "net score can drop to zero through penalties");
+  assert.equal(view.collectedScore, 100, "collected positive points remain tracked");
 });

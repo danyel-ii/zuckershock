@@ -50,6 +50,7 @@ export class GameCore {
 
     this.phase = "idle"; // idle | running | paused | over
     this.score = 0;
+    this.collectedScore = 0;
     this.streak = 0;
     this.forbiddenWhacks = 0;
     this.maxForbiddenWhacks = cleanMaxForbiddenWhacks(maxForbiddenWhacks);
@@ -73,6 +74,7 @@ export class GameCore {
   start(nowMs) {
     this.phase = "running";
     this.score = 0;
+    this.collectedScore = 0;
     this.streak = 0;
     this.forbiddenWhacks = 0;
     this.gameOverReason = null;
@@ -398,6 +400,7 @@ export class GameCore {
     const mult = 1 + tier * 0.1;
     const delta = Math.round(base * mult);
     this.score = Math.max(0, this.score + delta);
+    this.collectedScore += delta;
     return { result: "hit", delta, kind: occ.kind };
   }
 
@@ -408,6 +411,7 @@ export class GameCore {
       speed: this.speed,
       level: this.level,
       score: this.score,
+      collectedScore: this.collectedScore,
       streak: this.streak,
       forbiddenWhacks: this.forbiddenWhacks,
       maxForbiddenWhacks: this.maxForbiddenWhacks,

@@ -8,15 +8,15 @@ const profileBig = { startHoles: 5, maxHoles: 9, simCap: 3 };
 
 test("classic difficulty clamps and reaches expected endpoints", () => {
   const p0 = getDifficultyParams({ elapsedSec: 0, mode: "classic", profile: profileSmall });
-  assert.equal(p0.spawnIntervalMs, 1200);
-  assert.equal(p0.visibleMs, 1100);
+  assert.equal(p0.spawnIntervalMs, 1380);
+  assert.equal(p0.visibleMs, 1265);
   assert.equal(p0.unlockedHoles, 4);
   assert.equal(p0.maxSimultaneous, 1);
   assert.equal(p0.decoyRate, 0);
 
   const pEnd = getDifficultyParams({ elapsedSec: 999, mode: "classic", profile: profileSmall });
-  assert.equal(pEnd.spawnIntervalMs, 450);
-  assert.equal(pEnd.visibleMs, 500);
+  assert.equal(pEnd.spawnIntervalMs, 518);
+  assert.equal(pEnd.visibleMs, 575);
   assert.equal(pEnd.unlockedHoles, 6);
   assert.equal(pEnd.maxSimultaneous, 2);
   assert.ok(Math.abs(pEnd.decoyRate - 0.12) < 1e-9);

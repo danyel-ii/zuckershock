@@ -2,19 +2,22 @@ import { clamp, clamp01, easeInQuad, lerp } from "./utils.js";
 
 const SPEED_PROFILES = {
   normal: {
+    // Leicht: etwas langsamer als bisheriges "normal".
+    spawnScale: 1.15,
+    visibleScale: 1.15,
+    forbiddenTraverseScale: 1.12,
+  },
+  schwierig: {
+    // Mittel: entspricht bisherigem "normal".
     spawnScale: 1,
     visibleScale: 1,
     forbiddenTraverseScale: 1,
   },
-  schwierig: {
+  sehr_schwierig: {
+    // Schwer: entspricht bisherigem "schwierig".
     spawnScale: 0.86,
     visibleScale: 0.86,
     forbiddenTraverseScale: 0.88,
-  },
-  sehr_schwierig: {
-    spawnScale: 0.74,
-    visibleScale: 0.74,
-    forbiddenTraverseScale: 0.78,
   },
 };
 
