@@ -1,5 +1,5 @@
 // Minimal offline cache: pre-cache app shell; runtime-cache same-origin GET requests.
-const CACHE_NAME = "wam-cache-v46";
+const CACHE_NAME = "wam-cache-v48";
 const SHELL = [
   "./",
   "./index.html",
@@ -19,6 +19,9 @@ const SHELL = [
   "./assets/original/sprite-sets/set_a/1.png",
   "./assets/original/sprite-sets/set_a/2.png",
   "./assets/original/sprite-sets/set_a/3.png",
+  "./assets/original/sprite-sets/set_a/4.png",
+  "./assets/original/sprite-sets/set_a/5.png",
+  "./assets/original/sprite-sets/set_a/6.png",
   "./assets/original/sprite-sets/set_b/1.png",
   "./assets/original/sprite-sets/set_b/2.png",
   "./assets/original/sprite-sets/set_b/3.png",

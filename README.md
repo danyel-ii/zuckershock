@@ -45,7 +45,7 @@ npm test
 
 ## User-Provided Kawaii Packs (Integrated)
 - Gameplay sprite sets (switchable in settings):
-  - `public/assets/original/sprite-sets/set_a/` (3 figures)
+  - `public/assets/original/sprite-sets/set_a/` (6 figures)
   - `public/assets/original/sprite-sets/set_b/` (6 figures)
   - source notes: `public/assets/original/sprite-sets/SOURCES.md`
 - UI skin sheets + derived slices:
@@ -75,6 +75,7 @@ Classic mode (4 Stufen, je 45s = 180s) ramps:
 - Settings has 3 speed levels: **Normal / Schwierig / Sehr schwierig**
 - Settings has selectable attempts: **3 / 4 / 5 / 6 / 7**
 - Settings has 2 sprite sets: **Set A / Set B**
+- Landing page uses randomized Set-A sprite icons on refresh
 
 ## Privacy
 Local-only storage:

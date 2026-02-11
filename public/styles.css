@@ -58,6 +58,11 @@
   --post-ui-banner: url("./assets/original/post-ui/pieces-bar-2.png");
   --post-ui-banner-alt: url("./assets/original/post-ui/pieces-bar-1.png");
   --post-ui-bg: url("./assets/original/post-ui/background-green.png");
+  --landing-brand-sprite: url("./assets/original/sprite-sets/set_a/1.png");
+  --landing-title-sprite: url("./assets/original/sprite-sets/set_a/2.png");
+  --landing-start-sprite: url("./assets/original/sprite-sets/set_a/1.png");
+  --landing-settings-sprite: url("./assets/original/sprite-sets/set_a/3.png");
+  --landing-leaderboard-sprite: url("./assets/original/sprite-sets/set_a/4.png");
 }
 
 *,
@@ -145,7 +150,7 @@ body.body--in-game {
   width: 44px;
   height: 44px;
   border-radius: 16px;
-  background-image: url("./assets/original/sprite-sets/set_a/1.png"),
+  background-image: var(--landing-brand-sprite),
     radial-gradient(circle at 30% 28%, #f4fcb4 0 24%, #80b866 62%, #2f7a35 100%),
     repeating-linear-gradient(
       45deg,
@@ -336,7 +341,7 @@ body.body--in-game {
   width: clamp(58px, 9vw, 96px);
   height: clamp(58px, 9vw, 96px);
   flex: 0 0 auto;
-  background: url("./assets/original/sprite-sets/set_a/2.png") no-repeat center / contain;
+  background: var(--landing-title-sprite) no-repeat center / contain;
   filter: drop-shadow(0 8px 12px rgba(69, 59, 101, 0.28));
 }
 .title--small {
@@ -624,11 +629,15 @@ body.body--in-game {
 }
 
 #screen-title .cta #startBtn::before {
-  background-image: url("./assets/original/sprite-sets/set_a/1.png");
+  background-image: var(--landing-start-sprite);
 }
 
 #screen-title .cta #settingsBtn::before {
-  background-image: url("./assets/original/sprite-sets/set_a/3.png");
+  background-image: var(--landing-settings-sprite);
+}
+
+#screen-title .cta #leaderboardBtn::before {
+  background-image: var(--landing-leaderboard-sprite);
 }
 
 #screen-title .cta .btn--primary {
@@ -637,11 +646,11 @@ body.body--in-game {
 }
 
 #screen-title .cta .btn--primary::before {
-  background-image: url("./assets/original/sprite-sets/set_a/1.png");
+  background-image: var(--landing-start-sprite);
 }
 
 #screen-title .cta .btn:not(.btn--primary)::before {
-  background-image: url("./assets/original/sprite-sets/set_a/3.png");
+  background-image: var(--landing-settings-sprite);
 }
 
 .btn {
@@ -866,6 +875,7 @@ body.body--in-game {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
   background-image: radial-gradient(240px 120px at 18% 24%, rgba(255, 255, 255, 0.44), rgba(255, 255, 255, 0)),
     radial-gradient(220px 110px at 78% 18%, rgba(210, 240, 191, 0.52), rgba(210, 240, 191, 0)),
     repeating-radial-gradient(
@@ -880,6 +890,7 @@ body.body--in-game {
   content: "";
   position: absolute;
   inset: 8px;
+  z-index: 0;
   border-radius: 18px;
   border: 2px dashed rgba(233, 248, 220, 0.85);
   box-shadow: inset 0 0 0 3px rgba(122, 186, 90, 0.24);
@@ -891,6 +902,7 @@ body.body--in-game {
   position: absolute;
   left: 10px;
   top: -4px;
+  z-index: 0;
   width: 52px;
   height: 52px;
   border-radius: 999px;
@@ -904,6 +916,7 @@ body.body--in-game {
   position: absolute;
   right: 10px;
   top: -8px;
+  z-index: 0;
   width: 44px;
   height: 44px;
   border-radius: 999px;
@@ -914,7 +927,7 @@ body.body--in-game {
 
 .board-wrap > .board {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .board-wrap > .announcer {
@@ -976,10 +989,12 @@ body.body--in-game {
   gap: 12px;
   grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
   position: relative;
+  isolation: isolate;
 }
 
 .hole {
   position: relative;
+  z-index: 1;
   border: 2px solid rgba(114, 171, 85, 0.6);
   border-radius: 26px;
   background-image: linear-gradient(180deg, rgba(240, 252, 230, 0.84), rgba(205, 233, 179, 0.54)),
@@ -997,10 +1012,16 @@ body.body--in-game {
   touch-action: manipulation;
 }
 
+.hole--up,
+.hole--bonked {
+  z-index: 8;
+}
+
 .hole::before {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 0;
   background: radial-gradient(240px 160px at 20% 10%, rgba(244, 255, 232, 0.78), transparent 60%),
     radial-gradient(240px 160px at 80% 10%, rgba(219, 241, 198, 0.72), transparent 62%),
     repeating-linear-gradient(
@@ -1021,6 +1042,7 @@ body.body--in-game {
 .hole__scene {
   position: absolute;
   inset: 0;
+  z-index: 1;
 }
 
 .hole__pit {
@@ -1033,6 +1055,7 @@ body.body--in-game {
   border-radius: 999px;
   background: radial-gradient(circle at 50% 40%, rgba(62, 112, 50, 0.86), rgba(42, 82, 36, 0.58));
   box-shadow: inset 0 10px 18px rgba(25, 54, 24, 0.34);
+  z-index: 1;
 }
 
 .hole__lip {
@@ -1046,6 +1069,7 @@ body.body--in-game {
   background: linear-gradient(180deg, rgba(238, 252, 223, 0.96), rgba(165, 210, 126, 0.36));
   border: 1px solid rgba(96, 151, 73, 0.45);
   box-shadow: 0 12px 22px rgba(34, 82, 37, 0.22);
+  z-index: 3;
 }
 
 .hole__critter {
@@ -1603,6 +1627,9 @@ body.body--in-game {
     width: auto;
     margin-left: auto;
   }
+  #gameBackToStartBtn {
+    width: auto;
+  }
   .leaderboard-form {
     grid-template-columns: 1fr;
   }
@@ -1613,5 +1640,26 @@ body.body--in-game {
   .segmented--attempts .segmented__btn {
     padding: 8px 0;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 860px) {
+  .app.app--in-game .board-wrap {
+    overflow: visible;
+    padding-top: 18px;
+    isolation: isolate;
+  }
+  .app.app--in-game .board {
+    overflow: visible;
+  }
+  .app.app--in-game .hole {
+    overflow: visible;
+  }
+  .app.app--in-game .hole--up,
+  .app.app--in-game .hole--bonked {
+    z-index: 12;
+  }
+  .app.app--in-game .hole__critter {
+    z-index: 10;
   }
 }

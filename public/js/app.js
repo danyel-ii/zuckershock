@@ -26,7 +26,9 @@ const bestScoreValue = $("#bestScoreValue");
 const bestScoreValue2 = $("#bestScoreValue2");
 const startBtn = $("#startBtn");
 const settingsBtn = $("#settingsBtn");
+const leaderboardBtn = $("#leaderboardBtn");
 const pauseBtn = $("#pauseBtn");
+const gameBackToStartBtn = $("#gameBackToStartBtn");
 const playAgainBtn = $("#playAgainBtn");
 const backToTitleBtn = $("#backToTitleBtn");
 const scoreValue = $("#scoreValue");
@@ -66,11 +68,34 @@ const attemptButtons = Array.from(document.querySelectorAll("[data-max-attempts]
 const spritePackButtons = Array.from(document.querySelectorAll("[data-sprite-pack]"));
 const ROUND_LEVELS = 4;
 const LEVEL_DURATION_MS = 45_000;
+const LANDING_SET_A_COUNT = 6;
 
 function cleanMaxAttempts(value) {
   const n = Math.floor(Number(value));
   if (!Number.isFinite(n)) return 3;
   return Math.max(3, Math.min(7, n));
+}
+
+function pickRandomSpriteAsset() {
+  const idx = 1 + Math.floor(Math.random() * LANDING_SET_A_COUNT);
+  return `./assets/original/sprite-sets/set_a/${idx}.png`;
+}
+
+function randomizeLandingSpriteDecor() {
+  const app = document.querySelector(".app");
+  if (!(app instanceof HTMLElement)) return;
+  const pool = Array.from({ length: LANDING_SET_A_COUNT }, (_, i) => `./assets/original/sprite-sets/set_a/${i + 1}.png`);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const t = pool[i];
+    pool[i] = pool[j];
+    pool[j] = t;
+  }
+  app.style.setProperty("--landing-brand-sprite", `url("${pool[0] || pickRandomSpriteAsset()}")`);
+  app.style.setProperty("--landing-title-sprite", `url("${pool[1] || pickRandomSpriteAsset()}")`);
+  app.style.setProperty("--landing-start-sprite", `url("${pool[2] || pickRandomSpriteAsset()}")`);
+  app.style.setProperty("--landing-settings-sprite", `url("${pool[3] || pickRandomSpriteAsset()}")`);
+  app.style.setProperty("--landing-leaderboard-sprite", `url("${pool[4] || pickRandomSpriteAsset()}")`);
 }
 
 function showScreen(key) {
@@ -330,6 +355,20 @@ settingsBtn.addEventListener("click", () => {
   setOverlayOpen(true);
 });
 
+leaderboardBtn?.addEventListener("click", () => {
+  audio.play("button");
+  renderLeaderboards();
+  showScreen("gameover");
+  pendingRoundResult = null;
+  roundSaved = false;
+  if (saveScoreBtn instanceof HTMLButtonElement) saveScoreBtn.disabled = false;
+  setSaveScoreFeedback("Namen eingeben und Ergebnis speichern.", "info");
+  gameoverHeading.textContent = "Bestenliste";
+  gameoverReason.textContent = "Hier siehst du die besten Punkte.";
+  finalScoreValue.textContent = "-";
+  leaderboardName?.blur();
+});
+
 overlay.addEventListener("click", (e) => {
   const t = e.target;
   if (!(t instanceof HTMLElement)) return;
@@ -420,6 +459,11 @@ pauseBtn.addEventListener("click", () => {
   stopLoop();
 });
 
+gameBackToStartBtn?.addEventListener("click", () => {
+  audio.play("button");
+  endRoundToTitle();
+});
+
 resumeBtn.addEventListener("click", () => {
   audio.play("button");
   closeOverlay({ resumeGame: true });
@@ -460,6 +504,7 @@ if ("serviceWorker" in navigator) {
 }
 
 syncUI();
+randomizeLandingSpriteDecor();
 showScreen("title");
 
 function clearLevelBreakTimer() {

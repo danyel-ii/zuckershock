@@ -1058,3 +1058,57 @@
   - Verify settings still list only `Set A` and `Set B`.
   - Verify game still runs and sprite switching works.
   - Run `npm test` and `npm run build`.
+
+## 2026-02-11 (Floating-Objekte Immer Außerhalb Des Boards)
+- What changed:
+  - Updated floating tooth-fairy placement logic in `public/js/tooth-fairy-float.js`.
+  - Fairies now choose an anchor that is always outside the `.board-wrap` rectangle:
+    - preferred: right side
+    - fallback: left side, top, or bottom
+  - If viewport is very tight, fairies stay outside board even when they must be partially off-screen.
+  - Motion now uses side-aware drift so animations no longer push sprites back into the board.
+- Why:
+  - You reported board occlusion on mobile and requested floating objects to stay outside the gameboard.
+- How to test:
+  - Open on a narrow/mobile viewport and start a round.
+  - Verify floating objects never overlap any board square.
+  - Trigger forbidden hits and confirm the remaining-attempt fairy count still updates correctly.
+
+## 2026-02-11 (Set A Ersetzt + Landing-Random-Icons + Neue Navigation-Buttons)
+- What changed:
+  - Replaced `Set A` with new kitty sprites generated from the provided attached PNGs:
+    - `public/assets/original/sprite-sets/set_a/1.png` ... `6.png`
+  - Extended active `Set A` variant list in `public/js/game/art.js` from 3 to 6 sprites.
+  - Added landing-page sprite randomization on refresh in `public/js/app.js`:
+    - random Set-A icons for brand logo, title icon, start/settings/leaderboard buttons
+  - Added new buttons:
+    - landing view: `Bestenliste` (`#leaderboardBtn`)
+    - game view HUD: `Zur Startseite` (`#gameBackToStartBtn`)
+  - Wired button behavior in `public/js/app.js`:
+    - `Bestenliste` opens leaderboard view
+    - `Zur Startseite` ends round and returns to title
+  - Added new Set-A files to service-worker pre-cache and bumped cache to `wam-cache-v47`.
+- Why:
+  - You requested replacing Set A with the newly attached sprites, randomized landing icons, and explicit navigation buttons.
+- How to test:
+  - Reload page several times and verify landing icons change across refreshes.
+  - Start a round and use `Zur Startseite` in HUD to return immediately to title.
+  - On landing page click `Bestenliste` and verify leaderboard screen opens.
+
+## 2026-02-11 (Mobile Sichtbarkeit: Board + Floating-Objekte)
+- What changed:
+  - Fixed mobile board layering so popping sprites stay above neighboring tiles:
+    - raised active-hole stacking (`.hole--up`, `.hole--bonked`)
+    - added board isolation for cleaner z-order behavior in tight layouts
+  - Tightened floating-object placement:
+    - mobile-specific anchor strategy now prefers lanes above/below board
+    - stronger safety gap + hard overlap guard keeps fairies outside `.board-wrap`
+  - Reduced mobile fairy size to about `0.72x` of the previous mobile size (additional shrink factor).
+  - Bumped service-worker cache to `wam-cache-v48` for reliable update rollout.
+- Why:
+  - You reported that on mobile moles were partly hidden behind board layers and floating objects still occluded the board.
+- How to test:
+  - Open on mobile viewport and start a round.
+  - Confirm popping sprites render fully above board squares.
+  - Confirm floating objects stay outside the board area and do not block holes.
+  - Hard reload once so latest SW cache is active.

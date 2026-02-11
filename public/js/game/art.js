@@ -3,6 +3,9 @@ const SPRITE_PACKS = {
     "./assets/original/sprite-sets/set_a/1.png",
     "./assets/original/sprite-sets/set_a/2.png",
     "./assets/original/sprite-sets/set_a/3.png",
+    "./assets/original/sprite-sets/set_a/4.png",
+    "./assets/original/sprite-sets/set_a/5.png",
+    "./assets/original/sprite-sets/set_a/6.png",
   ],
   set_b: [
     "./assets/original/sprite-sets/set_b/1.png",
